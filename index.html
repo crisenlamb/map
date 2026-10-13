@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MAP Math Kinder Practice</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            fredoka: ['"Fredoka"', 'sans-serif'],
+            quicksand: ['"Quicksand"', 'sans-serif']
+          },
+          colors: {
+            mapBlue: '#0284c7',
+            mapNavy: '#0f172a',
+            sunnyYellow: '#fef08a',
+            appleGreen: '#22c55e',
+            brightCoral: '#f43f5e',
+            bubbleBg: '#f0fdf4'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .font-fun {
+      font-family: 'Fredoka', cursive;
+    }
+    .wiggle {
+      animation: wiggle 0.6s ease-in-out infinite alternate;
+    }
+    @keyframes wiggle {
+      0% { transform: rotate(-3deg); }
+      100% { transform: rotate(3deg); }
+    }
+    .pop-in {
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.92); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .option-card {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .option-card:hover {
+      transform: translateY(-4px);
+    }
+    .option-card:active {
+      transform: scale(0.97);
+    }
+    .option-selected {
+      border-color: #0284c7 !important;
+      background-color: #e0f2fe !important;
+      box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.35) !important;
+    }
+    .speaker-pulse {
+      animation: pulseSpeaker 1.4s infinite;
+    }
+    @keyframes pulseSpeaker {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+    /* Hide scrollbar for neat presentation */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-sky-100 via-emerald-50 to-amber-50 min-h-screen text-slate-800 flex flex-col justify-between overflow-x-hidden">
+
+  <!-- Header Bar replicating NWEA MAP K-2 Test Runner -->
+  <header class="bg-white/95 backdrop-blur shadow-sm border-b-4 border-sky-300 sticky top-0 z-30 px-3 sm:px-6 py-2.5">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      
+      <!-- Logo & Domain Badge -->
+      <div class="flex items-center space-x-2.5 sm:space-x-4">
+        <!-- LAMB PCS Attached Logo with SVG Fallback -->
+        <div class="flex-shrink-0 flex items-center">
+          <img 
+            id="schoolLogo" 
+            src="LOGO.png" 
+            alt="LAMB PCS Puzzle Logo" 
+            class="h-11 w-11 sm:h-14 sm:w-14 object-contain rounded-xl drop-shadow-sm hover:scale-105 transition-transform" 
+            onerror="this.classList.add('hidden'); document.getElementById('lambLogoSvgFallback').classList.remove('hidden');" 
+          />
+          <!-- Crisp SVG vector fallback matching the square puzzle icon -->
+          <div id="lambLogoSvgFallback" class="hidden flex items-center justify-center">
+            <svg viewBox="0 0 160 160" class="h-11 w-11 sm:h-14 sm:w-14 drop-shadow-sm rounded-xl overflow-hidden">
+              <!-- 4-Piece Interlocking Puzzle Quadrants -->
+              <!-- Top-Left Green Piece (Sprout / Plant) -->
+              <path d="M 0 0 H 80 C 80 20 95 20 95 40 C 95 60 80 60 80 80 H 0 Z" fill="#9dcd78"/>
+              <circle cx="42" cy="40" r="18" fill="white" opacity="0.95"/>
+              <path d="M42 58 V 32 M32 44 Q 42 40 42 28 M52 44 Q 42 40 42 28" stroke="#9dcd78" stroke-width="4.5" stroke-linecap="round" fill="none"/>
+              
+              <!-- Top-Right Coral Piece (World / Globe) -->
+              <path d="M 80 0 H 160 V 80 H 100 C 100 60 115 60 115 40 C 115 20 100 20 100 0 Z" fill="#f05b6a"/>
+              <circle cx="120" cy="40" r="20" fill="white" opacity="0.95"/>
+              <path d="M106 40 C 110 28, 130 28, 134 40 C 130 52, 110 52, 106 40 Z" stroke="#f05b6a" stroke-width="2.5" fill="none"/>
+              <line x1="100" y1="40" x2="140" y2="40" stroke="#f05b6a" stroke-width="2.5"/>
+              <line x1="120" y1="20" x2="120" y2="60" stroke="#f05b6a" stroke-width="2.5"/>
+
+              <!-- Bottom-Left Blue Piece (Child Reading) -->
+              <path d="M 0 80 H 80 C 80 100 65 100 65 120 C 65 140 80 140 80 160 H 0 Z" fill="#009ee2"/>
+              <path d="M26 122 Q 42 114 58 122 V 146 Q 42 138 26 146 Z" fill="white" opacity="0.95"/>
+              <circle cx="42" cy="108" r="9" fill="white" opacity="0.95"/>
+
+              <!-- Bottom-Right Purple Piece (Lightbulb / Idea) -->
+              <path d="M 80 80 H 160 V 160 H 80 C 60 160 60 140 80 140 C 100 140 100 100 80 80 Z" fill="#af95c9"/>
+              <path d="M110 114 C 104 118 104 128 112 136 L 112 142 H 128 L 128 136 C 136 128 136 118 130 114 C 124 107 116 107 110 114 Z" fill="white" opacity="0.95"/>
+            </svg>
+          </div>
+        </div>
+
+        <div>
+          <h1 class="font-fun text-lg sm:text-2xl text-sky-900 tracking-tight leading-none">
+            MAP Math <span class="text-sky-500">Kinder Practice</span>
+          </h1>
+          <div class="flex items-center gap-1.5 mt-0.5">
+            <span class="text-[10px] sm:text-xs font-bold text-slate-500 tracking-wider">LAMB PCS</span>
+            <span class="text-slate-300">•</span>
+            <span id="domainBadge" class="inline-block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-sky-700 bg-sky-100 px-2 py-0.5 rounded-full">
+              Counting & Cardinality
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Center Progress & Star Counter -->
+      <div class="flex items-center space-x-3 sm:space-x-6">
+        <div class="flex items-center space-x-1.5 bg-amber-100 border border-amber-300 px-3 py-1 rounded-full shadow-inner">
+          <span class="text-amber-500 text-lg sm:text-xl">⭐</span>
+          <span id="scoreCounter" class="font-fun font-bold text-amber-800 text-sm sm:text-base">0</span>
+        </div>
+
+        <div class="text-right">
+          <span class="text-xs sm:text-sm font-bold text-slate-500 block">Question</span>
+          <span class="font-fun text-base sm:text-xl font-bold text-sky-700">
+            <span id="currentQNum">1</span><span class="text-slate-400 font-normal"> / </span><span id="totalQNum">40</span>
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="max-w-5xl mx-auto mt-2">
+      <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
+        <div id="progressBar" class="bg-gradient-to-r from-sky-400 to-emerald-400 h-2.5 rounded-full transition-all duration-300" style="width: 2.5%"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow flex items-center justify-center p-3 sm:p-6 w-full max-w-4xl mx-auto">
+
+    <!-- Card Wrapper -->
+    <div id="questionContainer" class="pop-in w-full bg-white rounded-3xl shadow-xl border-4 border-sky-100 p-4 sm:p-8 flex flex-col justify-between min-h-[480px]">
+      
+      <!-- Audio Read-Aloud Prompt Section -->
+      <div class="flex items-start gap-3 sm:gap-4 pb-3 border-b-2 border-slate-100">
+        <button id="readAloudBtn" title="Read question aloud" class="speaker-pulse flex-shrink-0 bg-amber-400 hover:bg-amber-500 text-amber-950 p-3 sm:p-4 rounded-2xl shadow-lg border-b-4 border-amber-600 active:translate-y-1 transition flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+          </svg>
+        </button>
+
+        <div class="flex-grow">
+          <p class="text-xs uppercase font-bold text-sky-500 tracking-wider">Listen & Choose</p>
+          <h2 id="promptText" class="font-fun text-xl sm:text-2xl md:text-3xl text-slate-800 leading-snug">
+            Count the apples. How many apples are there?
+          </h2>
+        </div>
+      </div>
+
+      <!-- Question Visual Display Area (SVG / Canvas / Graphic) -->
+      <div id="graphicArea" class="py-4 my-2 flex items-center justify-center min-h-[160px] sm:min-h-[190px] bg-slate-50/80 rounded-2xl border-2 border-dashed border-sky-200 overflow-hidden px-2">
+        <!-- Dynamic Graphic SVG injected here -->
+      </div>
+
+      <!-- Multiple Choice Options Grid -->
+      <div id="optionsGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 my-2">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Interactive Feedback Banner -->
+      <div id="feedbackBanner" class="h-10 flex items-center justify-center transition-all opacity-0 font-fun text-base sm:text-lg">
+        <span id="feedbackText" class="px-4 py-1 rounded-full"></span>
+      </div>
+
+    </div>
+
+    <!-- Sad Kitty Try Again / Second Chance Modal -->
+    <div id="sadKittyModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+      <div class="pop-in bg-white rounded-3xl border-4 border-pink-200 shadow-2xl p-6 sm:p-8 max-w-sm w-full text-center relative">
+        
+        <!-- Animated Sad Kitty Vector Graphic -->
+        <div class="w-32 h-32 mx-auto mb-3">
+          <svg viewBox="0 0 160 160" class="w-full h-full drop-shadow-md">
+            <!-- Ears -->
+            <polygon points="35,55 15,15 65,35" fill="#fbcfe8" stroke="#f472b6" stroke-width="4" stroke-linejoin="round"/>
+            <polygon points="40,50 25,25 60,38" fill="#fda4af"/>
+            <polygon points="125,55 145,15 95,35" fill="#fbcfe8" stroke="#f472b6" stroke-width="4" stroke-linejoin="round"/>
+            <polygon points="120,50 135,25 100,38" fill="#fda4af"/>
+            <!-- Head -->
+            <ellipse cx="80" cy="85" rx="55" ry="48" fill="#fdf2f8" stroke="#f472b6" stroke-width="4"/>
+            <!-- Sad Droopy Eyes -->
+            <ellipse cx="60" cy="80" rx="7" ry="9" fill="#1e293b"/>
+            <circle cx="58" cy="77" r="2.5" fill="#ffffff"/>
+            <ellipse cx="100" cy="80" rx="7" ry="9" fill="#1e293b"/>
+            <circle cx="98" cy="77" r="2.5" fill="#ffffff"/>
+            <!-- Eyebrows -->
+            <path d="M52 68 Q 60 62 68 67" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <path d="M108 68 Q 100 62 92 67" stroke="#94a3b8" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <!-- Teardrop -->
+            <path d="M109 88 C 113 88, 116 95, 109 98 C 103 95, 106 88, 109 88 Z" fill="#38bdf8"/>
+            <!-- Cute Nose -->
+            <polygon points="76,93 84,93 80,98" fill="#fb7185"/>
+            <!-- Sad Pouty Mouth -->
+            <path d="M73 108 Q 80 101 87 108" stroke="#475569" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+            <!-- Cheeks -->
+            <ellipse cx="48" cy="94" rx="8" ry="4" fill="#fecdd3" opacity="0.8"/>
+            <ellipse cx="112" cy="94" rx="8" ry="4" fill="#fecdd3" opacity="0.8"/>
+            <!-- Whiskers -->
+            <line x1="30" y1="85" x2="10" y2="82" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round"/>
+            <line x1="30" y1="95" x2="12" y2="99" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round"/>
+            <line x1="130" y1="85" x2="150" y2="82" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round"/>
+            <line x1="130" y1="95" x2="148" y2="99" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <h3 id="sadKittyTitle" class="font-fun text-2xl font-bold text-pink-700 mb-1">
+          Uh-Oh! Try Again!
+        </h3>
+        <p id="sadKittyMessage" class="text-slate-600 text-sm sm:text-base mb-6 leading-relaxed">
+          The kitty is sad, but you can do it! Give it another try! 🐾
+        </p>
+
+        <button id="sadKittyActionBtn" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-fun text-lg py-3.5 px-6 rounded-2xl shadow-lg border-b-4 border-pink-700 active:translate-y-1 transition">
+          Try Again 🐾
+        </button>
+      </div>
+    </div>
+
+    <!-- Summary / Completion Screen (Hidden by default) -->
+    <div id="resultContainer" class="hidden w-full bg-white rounded-3xl shadow-2xl border-4 border-emerald-200 p-6 sm:p-10 text-center max-w-2xl mx-auto">
+      <div class="w-24 h-24 mx-auto mb-4 bg-amber-100 border-4 border-amber-300 rounded-full flex items-center justify-center text-5xl wiggle">
+        🏆
+      </div>
+      <h2 class="font-fun text-3xl sm:text-4xl text-sky-900 mb-2">Hooray! Great Job!</h2>
+      <p class="text-slate-600 text-lg mb-6">You finished the LAMB PCS MAP Math Kinder Practice!</p>
+
+      <div class="grid grid-cols-2 gap-4 max-w-md mx-auto mb-6">
+        <div class="bg-sky-50 border-2 border-sky-200 p-4 rounded-2xl">
+          <span class="block text-slate-500 text-xs sm:text-sm font-bold uppercase">Total Stars</span>
+          <span id="finalScore" class="font-fun text-3xl sm:text-4xl text-sky-700">38</span>
+          <span class="text-slate-400 text-sm"> / 40</span>
+        </div>
+        <div class="bg-emerald-50 border-2 border-emerald-200 p-4 rounded-2xl">
+          <span class="block text-slate-500 text-xs sm:text-sm font-bold uppercase">Estimated Level</span>
+          <span id="gradeLevelBadge" class="font-fun text-xl sm:text-2xl text-emerald-600 mt-1 block">Ready for 1st!</span>
+        </div>
+      </div>
+
+      <div id="domainBreakdown" class="text-left bg-slate-50 border border-slate-200 p-4 rounded-2xl mb-8 space-y-2 text-sm text-slate-700">
+        <!-- Domain scores injected here -->
+      </div>
+
+      <button id="restartBtn" class="bg-emerald-500 hover:bg-emerald-600 text-white font-fun text-xl px-8 py-4 rounded-2xl shadow-lg border-b-4 border-emerald-700 active:translate-y-1 transition w-full sm:w-auto">
+        🔄 Play Again
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Footer Bar with Navigation Buttons -->
+  <footer class="bg-white/95 border-t border-slate-200 px-4 sm:px-8 py-3.5 sticky bottom-0 z-20">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+      
+      <button id="prevBtn" class="flex items-center space-x-2 text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-4 py-2.5 rounded-xl font-bold text-sm sm:text-base border border-slate-300 transition disabled:opacity-30 disabled:pointer-events-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+        </svg>
+        <span class="hidden sm:inline">Back</span>
+      </button>
+
+      <!-- Center Tip for Young Learners -->
+      <div class="text-center text-xs text-slate-400 font-medium hidden sm:block">
+        Tap speaker to listen • Tap your answer • Click Next
+      </div>
+
+      <!-- Primary Next Button (Iconic MAP style blue forward action) -->
+      <button id="nextBtn" class="flex items-center space-x-2 bg-sky-500 hover:bg-sky-600 text-white px-6 sm:px-8 py-3 rounded-2xl font-fun text-lg sm:text-xl shadow-lg shadow-sky-200 border-b-4 border-sky-700 active:translate-y-1 transition disabled:opacity-40 disabled:cursor-not-allowed">
+        <span>Next</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+  </footer>
+
+  <script>
+    /* 
+      Dataset of 40 Kindergarten MAP Growth-aligned Math Questions.
+      Domains:
+      - CC: Counting & Cardinality / Number Sense
+      - OA: Operations & Algebraic Thinking
+      - NBT: Numbers in Base Ten
+      - MD: Measurement & Data
+      - G: Geometry
+    */
+    const questions = [
+      // 1. Counting to 10
+      {
+        id: 1,
+        domain: "Counting & Cardinality",
+        audio: "Count the shiny red apples. How many apples are there?",
+        prompt: "Count the apples. How many are there?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex flex-wrap items-center justify-center gap-3 max-w-sm">
+            ${Array(7).fill('').map(() => `
+              <div class="w-12 h-12 flex items-center justify-center transform hover:scale-110 transition">
+                <svg viewBox="0 0 100 100" class="w-12 h-12 drop-shadow">
+                  <ellipse cx="50" cy="55" rx="38" ry="36" fill="#ef4444" />
+                  <ellipse cx="44" cy="45" rx="8" ry="14" fill="#f87171" opacity="0.6" />
+                  <path d="M50 25 Q 52 10 60 5" stroke="#78350f" stroke-width="6" fill="none" stroke-linecap="round"/>
+                  <path d="M54 18 Q 70 12 70 24 Z" fill="#22c55e"/>
+                </svg>
+              </div>
+            `).join('')}
+          </div>
+        `,
+        options: ["5", "6", "7", "8"],
+        answerIndex: 2
+      },
+      // 2. Ten Frame representation
+      {
+        id: 2,
+        domain: "Numbers in Base Ten",
+        audio: "Look at the ten frame. How many purple dots are in the frame?",
+        prompt: "How many dots are in the ten-frame?",
+        graphicType: "svg",
+        graphic: `
+          <div class="border-4 border-indigo-700 bg-white rounded-xl p-2 inline-grid grid-cols-5 grid-rows-2 gap-2 shadow-md">
+            ${[1,1,1,1,1, 1,1,1,0,0].map(filled => `
+              <div class="w-12 h-12 sm:w-14 sm:h-14 border-2 border-indigo-300 rounded-lg flex items-center justify-center bg-indigo-50/50">
+                ${filled ? `<div class="w-9 h-9 rounded-full bg-purple-600 shadow-md transform scale-95 border-2 border-purple-800"></div>` : ''}
+              </div>
+            `).join('')}
+          </div>
+        `,
+        options: ["6", "7", "8", "9"],
+        answerIndex: 2
+      },
+      // 3. Comparing Quantities (More)
+      {
+        id: 3,
+        domain: "Counting & Cardinality",
+        audio: "Which group has MORE fish? Group A or Group B?",
+        prompt: "Which group has MORE fish?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-around w-full max-w-md gap-4">
+            <div class="border-2 border-dashed border-sky-400 bg-sky-50 rounded-2xl p-3 flex flex-col items-center flex-1">
+              <span class="font-fun text-sky-800 font-bold mb-1">Group A</span>
+              <div class="flex flex-wrap gap-2 justify-center">
+                ${Array(4).fill('🐟').map(f => `<span class="text-2xl">${f}</span>`).join('')}
+              </div>
+            </div>
+            <span class="font-fun font-bold text-slate-400 text-xl">OR</span>
+            <div class="border-2 border-dashed border-amber-400 bg-amber-50 rounded-2xl p-3 flex flex-col items-center flex-1">
+              <span class="font-fun text-amber-800 font-bold mb-1">Group B</span>
+              <div class="flex flex-wrap gap-2 justify-center">
+                ${Array(8).fill('🐠').map(f => `<span class="text-2xl">${f}</span>`).join('')}
+              </div>
+            </div>
+          </div>
+        `,
+        options: ["Group A", "Group B", "They are equal"],
+        answerIndex: 1
+      },
+      // 4. Basic Addition with pictures
+      {
+        id: 4,
+        domain: "Operations & Algebraic Thinking",
+        audio: "Three yellow chicks plus two yellow chicks. How many chicks in all?",
+        prompt: "3 chicks + 2 chicks = ?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-3 sm:gap-6">
+            <div class="flex gap-1.5 p-2 bg-yellow-100 rounded-xl border border-yellow-300">
+              <span class="text-3xl">🐥</span><span class="text-3xl">🐥</span><span class="text-3xl">🐥</span>
+            </div>
+            <span class="font-fun text-3xl font-bold text-slate-600">+</span>
+            <div class="flex gap-1.5 p-2 bg-yellow-100 rounded-xl border border-yellow-300">
+              <span class="text-3xl">🐥</span><span class="text-3xl">🐥</span>
+            </div>
+            <span class="font-fun text-3xl font-bold text-slate-600">=</span>
+            <span class="font-fun text-3xl font-bold text-sky-600">?</span>
+          </div>
+        `,
+        options: ["4", "5", "6", "3"],
+        answerIndex: 1
+      },
+      // 5. Horizontal Addition Equation (1 + 3 = ?)
+      {
+        id: 5,
+        domain: "Operations & Algebraic Thinking",
+        audio: "What is 1 plus 3? Select the correct answer.",
+        prompt: "Solve: 1 + 3 = ?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-3 sm:gap-5 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-indigo-200 rounded-2xl p-4 shadow-sm">
+            <div class="w-14 h-16 bg-white rounded-xl shadow-md border-2 border-indigo-300 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-indigo-700">1</div>
+            <span class="font-fun text-3xl sm:text-4xl font-extrabold text-amber-500">+</span>
+            <div class="w-14 h-16 bg-white rounded-xl shadow-md border-2 border-indigo-300 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-indigo-700">3</div>
+            <span class="font-fun text-3xl sm:text-4xl font-extrabold text-slate-400">=</span>
+            <div class="w-14 h-16 bg-amber-100 rounded-xl border-2 border-dashed border-amber-400 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-amber-800 shadow-inner">?</div>
+          </div>
+        `,
+        options: ["3", "4", "5", "2"],
+        answerIndex: 1
+      },
+      // 6. Horizontal Subtraction Equation (3 - 1 = ?)
+      {
+        id: 6,
+        domain: "Operations & Algebraic Thinking",
+        audio: "What is 3 minus 1? Select the correct answer.",
+        prompt: "Solve: 3 - 1 = ?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-3 sm:gap-5 bg-gradient-to-r from-rose-50 to-orange-50 border-2 border-rose-200 rounded-2xl p-4 shadow-sm">
+            <div class="w-14 h-16 bg-white rounded-xl shadow-md border-2 border-rose-300 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-rose-700">3</div>
+            <span class="font-fun text-4xl font-extrabold text-rose-500">−</span>
+            <div class="w-14 h-16 bg-white rounded-xl shadow-md border-2 border-rose-300 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-rose-700">1</div>
+            <span class="font-fun text-3xl sm:text-4xl font-extrabold text-slate-400">=</span>
+            <div class="w-14 h-16 bg-amber-100 rounded-xl border-2 border-dashed border-amber-400 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-amber-800 shadow-inner">?</div>
+          </div>
+        `,
+        options: ["1", "2", "3", "4"],
+        answerIndex: 1
+      },
+      // 7. Stacked/Vertical Addition Problem
+      {
+        id: 7,
+        domain: "Operations & Algebraic Thinking",
+        audio: "Look at the math problem: 2 plus 3. What is the answer?",
+        prompt: "Add the numbers:",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center">
+            <div class="bg-white border-4 border-sky-300 rounded-2xl p-4 sm:p-5 shadow-md flex flex-col items-end w-36 sm:w-40">
+              <span class="font-fun text-4xl sm:text-5xl font-bold text-sky-800 leading-none mr-2">2</span>
+              <div class="flex items-center justify-between w-full mt-2">
+                <span class="font-fun text-4xl font-extrabold text-amber-500">+</span>
+                <span class="font-fun text-4xl sm:text-5xl font-bold text-sky-800 leading-none mr-2">3</span>
+              </div>
+              <div class="w-full border-b-4 border-slate-700 mt-2"></div>
+              <div class="w-full flex justify-end pt-2">
+                <span class="font-fun text-3xl sm:text-4xl font-bold text-amber-600 mr-3">?</span>
+              </div>
+            </div>
+          </div>
+        `,
+        options: ["4", "5", "6", "3"],
+        answerIndex: 1
+      },
+      // 8. Stacked/Vertical Subtraction Problem
+      {
+        id: 9,
+        domain: "Operations & Algebraic Thinking",
+        audio: "Look at the math problem: 5 minus 2. What is 5 take away 2?",
+        prompt: "Subtract the numbers:",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center">
+            <div class="bg-white border-4 border-emerald-300 rounded-2xl p-4 sm:p-5 shadow-md flex flex-col items-end w-36 sm:w-40">
+              <span class="font-fun text-4xl sm:text-5xl font-bold text-emerald-800 leading-none mr-2">5</span>
+              <div class="flex items-center justify-between w-full mt-2">
+                <span class="font-fun text-4xl font-extrabold text-rose-500">−</span>
+                <span class="font-fun text-4xl sm:text-5xl font-bold text-emerald-800 leading-none mr-2">2</span>
+              </div>
+              <div class="w-full border-b-4 border-slate-700 mt-2"></div>
+              <div class="w-full flex justify-end pt-2">
+                <span class="font-fun text-3xl sm:text-4xl font-bold text-emerald-600 mr-3">?</span>
+              </div>
+            </div>
+          </div>
+        `,
+        options: ["2", "3", "4", "1"],
+        answerIndex: 1
+      },
+      // 10. Horizontal Addition (2 + 2 = ?)
+      {
+        id: 10,
+        domain: "Operations & Algebraic Thinking",
+        audio: "What is 2 plus 2? Choose the correct number.",
+        prompt: "Solve: 2 + 2 = ?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-3 sm:gap-5 bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 rounded-2xl p-4 shadow-sm">
+            <div class="w-14 h-16 bg-white rounded-xl shadow-md border-2 border-purple-300 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-purple-700">2</div>
+            <span class="font-fun text-3xl sm:text-4xl font-extrabold text-purple-500">+</span>
+            <div class="w-14 h-16 bg-white rounded-xl shadow-md border-2 border-purple-300 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-purple-700">2</div>
+            <span class="font-fun text-3xl sm:text-4xl font-extrabold text-slate-400">=</span>
+            <div class="w-14 h-16 bg-amber-100 rounded-xl border-2 border-dashed border-amber-400 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-amber-800 shadow-inner">?</div>
+          </div>
+        `,
+        options: ["3", "4", "5", "6"],
+        answerIndex: 1
+      },
+      // 11. Stacked Addition (4 + 1)
+      {
+        id: 11,
+        domain: "Operations & Algebraic Thinking",
+        audio: "Add four plus one. What is the answer?",
+        prompt: "Add the numbers:",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center">
+            <div class="bg-white border-4 border-amber-300 rounded-2xl p-4 sm:p-5 shadow-md flex flex-col items-end w-36 sm:w-40">
+              <span class="font-fun text-4xl sm:text-5xl font-bold text-amber-900 leading-none mr-2">4</span>
+              <div class="flex items-center justify-between w-full mt-2">
+                <span class="font-fun text-4xl font-extrabold text-emerald-500">+</span>
+                <span class="font-fun text-4xl sm:text-5xl font-bold text-amber-900 leading-none mr-2">1</span>
+              </div>
+              <div class="w-full border-b-4 border-slate-700 mt-2"></div>
+              <div class="w-full flex justify-end pt-2">
+                <span class="font-fun text-3xl sm:text-4xl font-bold text-amber-600 mr-3">?</span>
+              </div>
+            </div>
+          </div>
+        `,
+        options: ["3", "4", "5", "6"],
+        answerIndex: 2
+      },
+      // 12. Horizontal Subtraction (4 - 2 = ?)
+      {
+        id: 12,
+        domain: "Operations & Algebraic Thinking",
+        audio: "Solve four minus two. Select the correct answer.",
+        prompt: "Solve: 4 - 2 = ?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-3 sm:gap-5 bg-gradient-to-r from-teal-50 to-cyan-50 border-2 border-teal-200 rounded-2xl p-4 shadow-sm">
+            <div class="w-14 h-16 bg-white rounded-xl shadow-md border-2 border-teal-300 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-teal-700">4</div>
+            <span class="font-fun text-4xl font-extrabold text-teal-600">−</span>
+            <div class="w-14 h-16 bg-white rounded-xl shadow-md border-2 border-teal-300 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-teal-700">2</div>
+            <span class="font-fun text-3xl sm:text-4xl font-extrabold text-slate-400">=</span>
+            <div class="w-14 h-16 bg-amber-100 rounded-xl border-2 border-dashed border-amber-400 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-amber-800 shadow-inner">?</div>
+          </div>
+        `,
+        options: ["1", "2", "3", "0"],
+        answerIndex: 1
+      },
+      // 8. Number Pattern / What comes next
+      {
+        id: 8,
+        domain: "Operations & Algebraic Thinking",
+        audio: "Look at the number train: 2, 3, 4, blank. What number comes next?",
+        prompt: "What number comes next? 2, 3, 4, ___",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-2">
+            <div class="w-14 h-14 bg-amber-400 text-amber-950 font-fun font-bold text-2xl rounded-2xl flex items-center justify-center border-b-4 border-amber-600 shadow">2</div>
+            <div class="w-14 h-14 bg-amber-400 text-amber-950 font-fun font-bold text-2xl rounded-2xl flex items-center justify-center border-b-4 border-amber-600 shadow">3</div>
+            <div class="w-14 h-14 bg-amber-400 text-amber-950 font-fun font-bold text-2xl rounded-2xl flex items-center justify-center border-b-4 border-amber-600 shadow">4</div>
+            <div class="w-14 h-14 bg-sky-200 text-sky-800 font-fun font-bold text-3xl rounded-2xl flex items-center justify-center border-2 border-dashed border-sky-500 shadow-inner">?</div>
+          </div>
+        `,
+        options: ["5", "6", "1", "7"],
+        answerIndex: 0
+      },
+      // 9. 3D Shape identification
+      {
+        id: 9,
+        domain: "Geometry",
+        audio: "Which of these 3D solid shapes is a sphere, like a ball?",
+        prompt: "Which 3D shape is a SPHERE?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-6">
+            <div class="text-center">
+              <svg viewBox="0 0 100 100" class="w-24 h-24">
+                <defs>
+                  <radialGradient id="sphereGrad" cx="35%" cy="35%" r="65%">
+                    <stop offset="0%" stop-color="#fdba74" />
+                    <stop offset="45%" stop-color="#ea580c" />
+                    <stop offset="100%" stop-color="#7c2d12" />
+                  </radialGradient>
+                </defs>
+                <circle cx="50" cy="50" r="42" fill="url(#sphereGrad)" />
+              </svg>
+              <span class="font-bold text-slate-600 text-sm">A ball shape</span>
+            </div>
+          </div>
+        `,
+        options: ["Sphere", "Cube", "Cone", "Cylinder"],
+        answerIndex: 0
+      },
+      // 10. Counting on Ten Frame (making 10)
+      {
+        id: 10,
+        domain: "Operations & Algebraic Thinking",
+        audio: "How many MORE blue dots are needed to fill the whole ten frame?",
+        prompt: "How many MORE dots to make 10?",
+        graphicType: "svg",
+        graphic: `
+          <div class="border-4 border-sky-700 bg-white rounded-xl p-2 inline-grid grid-cols-5 grid-rows-2 gap-2 shadow-md">
+            ${[1,1,1,1,1, 1,1,0,0,0].map(filled => `
+              <div class="w-12 h-12 border-2 border-sky-200 rounded-lg flex items-center justify-center bg-sky-50/40">
+                ${filled ? `<div class="w-9 h-9 rounded-full bg-sky-500 shadow border-2 border-sky-700"></div>` : `<span class="text-slate-300 font-bold text-lg">?</span>`}
+              </div>
+            `).join('')}
+          </div>
+        `,
+        options: ["2", "3", "4", "5"],
+        answerIndex: 1
+      },
+      // 11. Spatial reasoning / Positional words
+      {
+        id: 11,
+        domain: "Geometry",
+        audio: "Look at the table. Where is the cat? Is it under the table, or on top of the table?",
+        prompt: "The cat is ______ the table.",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex flex-col items-center">
+            <!-- Table top -->
+            <div class="w-44 h-5 bg-amber-700 rounded-sm shadow"></div>
+            <!-- Table legs & cat underneath -->
+            <div class="w-40 flex justify-between items-end h-20 px-2 border-x-4 border-amber-800">
+              <span class="text-5xl mx-auto pb-1">🐱</span>
+            </div>
+            <div class="w-48 h-1 bg-slate-300"></div>
+          </div>
+        `,
+        options: ["On top of", "Under", "Behind", "Far away"],
+        answerIndex: 1
+      },
+      // 12. Decomposing 5
+      {
+        id: 12,
+        domain: "Operations & Algebraic Thinking",
+        audio: "5 can be broken into 4 and what other number?",
+        prompt: "4 + ? = 5",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-3">
+            <div class="flex gap-1 bg-pink-100 p-2 rounded-xl border border-pink-300">
+              <span class="text-3xl">🌸</span><span class="text-3xl">🌸</span><span class="text-3xl">🌸</span><span class="text-3xl">🌸</span>
+            </div>
+            <span class="font-fun text-2xl font-bold text-slate-500">and</span>
+            <div class="w-12 h-12 bg-sky-100 border-2 border-dashed border-sky-400 rounded-xl flex items-center justify-center font-fun text-2xl text-sky-700 font-bold">?</div>
+            <span class="font-fun text-2xl font-bold text-slate-500">= 5</span>
+          </div>
+        `,
+        options: ["1", "2", "3", "0"],
+        answerIndex: 0
+      },
+      // 13. Weight comparison
+      {
+        id: 13,
+        domain: "Measurement & Data",
+        audio: "Look at the balance scale. Which object is HEAVIER?",
+        prompt: "Which object is HEAVIER?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex flex-col items-center">
+            <svg viewBox="0 0 240 120" class="w-64 h-32">
+              <!-- Tilting beam -->
+              <line x1="30" y1="90" x2="210" y2="40" stroke="#475569" stroke-width="8" stroke-linecap="round"/>
+              <!-- Triangle fulcrum -->
+              <polygon points="120,65 105,115 135,115" fill="#0284c7"/>
+              <!-- Left pan (down = heavier) -->
+              <line x1="45" y1="85" x2="45" y2="105" stroke="#94a3b8" stroke-width="3"/>
+              <ellipse cx="45" cy="105" rx="30" ry="7" fill="#64748b"/>
+              <text x="45" y="100" text-anchor="middle" font-size="24">🐘</text>
+              <text x="45" y="120" text-anchor="middle" font-family="Fredoka" font-size="12" font-weight="bold" fill="#0f172a">Elephant</text>
+              <!-- Right pan (up = lighter) -->
+              <line x1="195" y1="45" x2="195" y2="65" stroke="#94a3b8" stroke-width="3"/>
+              <ellipse cx="195" cy="65" rx="26" ry="6" fill="#64748b"/>
+              <text x="195" y="60" text-anchor="middle" font-size="20">🪶</text>
+              <text x="195" y="80" text-anchor="middle" font-family="Fredoka" font-size="12" font-weight="bold" fill="#0f172a">Feather</text>
+            </svg>
+          </div>
+        `,
+        options: ["The Elephant", "The Feather", "They weigh the same"],
+        answerIndex: 0
+      },
+      // 14. Counting up to 15 (Teen numbers)
+      {
+        id: 14,
+        domain: "Numbers in Base Ten",
+        audio: "Ten ones and three more ones equals what number?",
+        prompt: "10 + 3 = ?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-4">
+            <div class="bg-blue-50 border-2 border-blue-400 p-2 rounded-xl flex flex-col items-center">
+              <span class="text-xs font-bold text-blue-700 mb-1">Group of 10</span>
+              <div class="grid grid-cols-5 gap-1">
+                ${Array(10).fill('⭐').map(s => `<span class="text-sm">${s}</span>`).join('')}
+              </div>
+            </div>
+            <span class="text-2xl font-bold text-slate-400">+</span>
+            <div class="bg-amber-50 border-2 border-amber-400 p-2 rounded-xl flex flex-col items-center">
+              <span class="text-xs font-bold text-amber-700 mb-1">3 Ones</span>
+              <div class="flex gap-1">
+                <span class="text-sm">⭐</span><span class="text-sm">⭐</span><span class="text-sm">⭐</span>
+              </div>
+            </div>
+          </div>
+        `,
+        options: ["11", "12", "13", "14"],
+        answerIndex: 2
+      },
+      // 15. Simple Pictograph
+      {
+        id: 15,
+        domain: "Measurement & Data",
+        audio: "Look at the graph. Which favorite pet got the MOST votes?",
+        prompt: "Which pet has the MOST votes?",
+        graphicType: "svg",
+        graphic: `
+          <div class="w-full max-w-xs space-y-2 bg-white p-3 rounded-xl border border-slate-200 shadow-sm">
+            <div class="flex items-center gap-2">
+              <span class="w-12 text-sm font-bold text-slate-600">Dogs:</span>
+              <div class="flex gap-1">🐶🐶🐶🐶</div>
+              <span class="text-xs font-bold text-slate-400">(4)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-12 text-sm font-bold text-slate-600">Cats:</span>
+              <div class="flex gap-1">🐱🐱</div>
+              <span class="text-xs font-bold text-slate-400">(2)</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="w-12 text-sm font-bold text-slate-600">Birds:</span>
+              <div class="flex gap-1">🦜</div>
+              <span class="text-xs font-bold text-slate-400">(1)</span>
+            </div>
+          </div>
+        `,
+        options: ["Dogs", "Cats", "Birds"],
+        answerIndex: 0
+      },
+      // 16. Shape sides count
+      {
+        id: 16,
+        domain: "Geometry",
+        audio: "How many straight sides does a rectangle have?",
+        prompt: "How many straight sides does this rectangle have?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center">
+            <div class="w-44 h-24 bg-emerald-100 border-4 border-emerald-500 rounded flex items-center justify-center font-fun text-emerald-800 text-sm font-semibold">
+              Rectangle
+            </div>
+          </div>
+        `,
+        options: ["3", "4", "5", "0"],
+        answerIndex: 1
+      },
+      // 17. Pattern completion (AB pattern)
+      {
+        id: 17,
+        domain: "Operations & Algebraic Thinking",
+        audio: "Red heart, blue heart, red heart, blue heart, red heart... what comes next?",
+        prompt: "What comes next in the pattern? ❤️ 💙 ❤️ 💙 ❤️ ___",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-2 text-3xl">
+            <span>❤️</span><span>💙</span><span>❤️</span><span>💙</span><span>❤️</span>
+            <div class="w-10 h-10 border-2 border-dashed border-sky-500 rounded-lg flex items-center justify-center bg-sky-50 text-xl font-bold text-sky-700">?</div>
+          </div>
+        `,
+        options: ["💙 Blue Heart", "❤️ Red Heart", "⭐ Yellow Star", "🟢 Green Circle"],
+        answerIndex: 0
+      },
+      // 18. Comparing numbers
+      {
+        id: 18,
+        domain: "Counting & Cardinality",
+        audio: "Which number is GREATER? 9 or 4?",
+        prompt: "Which number is GREATER (bigger)?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-8">
+            <div class="w-20 h-20 bg-rose-100 border-4 border-rose-400 rounded-2xl flex items-center justify-center font-fun text-4xl text-rose-700 font-bold shadow">
+              9
+            </div>
+            <div class="w-20 h-20 bg-blue-100 border-4 border-blue-400 rounded-2xl flex items-center justify-center font-fun text-4xl text-blue-700 font-bold shadow">
+              4
+            </div>
+          </div>
+        `,
+        options: ["9", "4", "They are equal"],
+        answerIndex: 0
+      },
+      // 19. Addition within 5
+      {
+        id: 19,
+        domain: "Operations & Algebraic Thinking",
+        audio: "What is 2 plus 2?",
+        prompt: "2 + 2 = ?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-3">
+            <div class="flex gap-1 bg-violet-100 p-2 rounded-xl border border-violet-300">
+              <span class="text-3xl">🎈</span><span class="text-3xl">🎈</span>
+            </div>
+            <span class="font-fun text-3xl font-bold text-slate-600">+</span>
+            <div class="flex gap-1 bg-violet-100 p-2 rounded-xl border border-violet-300">
+              <span class="text-3xl">🎈</span><span class="text-3xl">🎈</span>
+            </div>
+          </div>
+        `,
+        options: ["3", "4", "5", "6"],
+        answerIndex: 1
+      },
+      // 20. Capacity / Holds more
+      {
+        id: 20,
+        domain: "Measurement & Data",
+        audio: "Which container holds MORE water? The big bucket or the tiny teacup?",
+        prompt: "Which holds MORE water?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-end justify-center gap-12">
+            <div class="flex flex-col items-center">
+              <span class="text-6xl">🪣</span>
+              <span class="font-fun font-bold text-slate-700 mt-2">Bucket</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <span class="text-3xl">☕</span>
+              <span class="font-fun font-bold text-slate-700 mt-2">Teacup</span>
+            </div>
+          </div>
+        `,
+        options: ["Bucket", "Teacup", "Both hold the same"],
+        answerIndex: 0
+      },
+      // 21. Counting fingers
+      {
+        id: 21,
+        domain: "Counting & Cardinality",
+        audio: "Count the fingers being held up. How many fingers do you see?",
+        prompt: "How many fingers are held up?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-6 text-5xl">
+            <span>✋</span>
+            <span>✌️</span>
+          </div>
+        `,
+        options: ["5", "6", "7", "8"],
+        answerIndex: 2
+      },
+      // 22. Identify 3D Cylinder
+      {
+        id: 22,
+        domain: "Geometry",
+        audio: "Which shape looks like a soda can?",
+        prompt: "Which 3D shape looks like a can?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center">
+            <svg viewBox="0 0 100 120" class="w-24 h-28">
+              <ellipse cx="50" cy="20" rx="30" ry="12" fill="#38bdf8" stroke="#0284c7" stroke-width="3"/>
+              <path d="M20 20 L20 100 A30 12 0 0 0 80 100 L80 20 Z" fill="#0284c7" opacity="0.8"/>
+              <ellipse cx="50" cy="100" rx="30" ry="12" fill="#0369a1" stroke="#0284c7" stroke-width="3"/>
+            </svg>
+          </div>
+        `,
+        options: ["Cube", "Cylinder", "Cone", "Sphere"],
+        answerIndex: 1
+      },
+      // 23. Subtraction from 5
+      {
+        id: 23,
+        domain: "Operations & Algebraic Thinking",
+        audio: "5 cars are parked. 1 car drives away. How many cars stay?",
+        prompt: "5 - 1 = ?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-2 text-3xl">
+            <span>🚗</span><span>🚗</span><span>🚗</span><span>🚗</span>
+            <div class="relative opacity-40">
+              <span>🚗</span>
+              <span class="absolute inset-0 text-red-600 font-bold text-3xl">✕</span>
+            </div>
+          </div>
+        `,
+        options: ["3", "4", "5", "2"],
+        answerIndex: 1
+      },
+      // 24. Sorting by Category
+      {
+        id: 24,
+        domain: "Measurement & Data",
+        audio: "Which one does NOT belong with the fruits?",
+        prompt: "Which one is NOT a fruit?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-4 text-4xl bg-orange-50 p-4 rounded-2xl border border-orange-200">
+            <span>🍎</span><span>🍌</span><span>🚗</span><span>🍇</span>
+          </div>
+        `,
+        options: ["Apple 🍎", "Banana 🍌", "Car 🚗", "Grapes 🍇"],
+        answerIndex: 2
+      },
+      // 25. Number line position
+      {
+        id: 25,
+        domain: "Counting & Cardinality",
+        audio: "Look at the number line. What number is missing between 6 and 8?",
+        prompt: "What number is missing on the line?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-2 sm:gap-4 bg-slate-100 p-4 rounded-2xl border border-slate-300">
+            <span class="font-fun font-bold text-2xl text-slate-700">5</span>
+            <span class="text-slate-400">→</span>
+            <span class="font-fun font-bold text-2xl text-slate-700">6</span>
+            <span class="text-slate-400">→</span>
+            <div class="w-10 h-10 bg-amber-200 border-2 border-amber-500 rounded-xl flex items-center justify-center font-fun text-2xl font-bold text-amber-900">?</div>
+            <span class="text-slate-400">→</span>
+            <span class="font-fun font-bold text-2xl text-slate-700">8</span>
+          </div>
+        `,
+        options: ["7", "9", "4", "10"],
+        answerIndex: 0
+      },
+      // 26. Circle attributes
+      {
+        id: 26,
+        domain: "Geometry",
+        audio: "How many corners does a round circle have?",
+        prompt: "How many corners does a circle have?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center">
+            <div class="w-24 h-24 rounded-full bg-rose-400 border-4 border-rose-600 shadow-md"></div>
+          </div>
+        `,
+        options: ["0 corners", "3 corners", "4 corners", "1 corner"],
+        answerIndex: 0
+      },
+      // 27. Teen numbers: 10 and 6
+      {
+        id: 27,
+        domain: "Numbers in Base Ten",
+        audio: "A full ten frame plus 6 more equals what number?",
+        prompt: "10 + 6 = ?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div class="border-2 border-emerald-600 bg-white rounded-lg p-1.5 grid grid-cols-5 gap-1">
+              ${Array(10).fill('').map(() => `<div class="w-6 h-6 rounded-full bg-emerald-500"></div>`).join('')}
+            </div>
+            <span class="text-xl font-bold text-slate-500">+</span>
+            <div class="border-2 border-dashed border-emerald-400 bg-white rounded-lg p-1.5 grid grid-cols-5 gap-1">
+              ${Array(6).fill('').map(() => `<div class="w-6 h-6 rounded-full bg-emerald-500"></div>`).join('')}
+            </div>
+          </div>
+        `,
+        options: ["14", "15", "16", "17"],
+        answerIndex: 2
+      },
+      // 28. Word problem - Addition
+      {
+        id: 28,
+        domain: "Operations & Algebraic Thinking",
+        audio: "Maya has 2 balloons. Her mom gives her 1 more balloon. How many balloons does Maya have now?",
+        prompt: "Maya has 2 balloons. Mom gives her 1 more. How many now?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-4 text-4xl">
+            <div class="p-2 bg-sky-50 rounded-xl border border-sky-200">🎈🎈</div>
+            <span class="text-2xl font-bold text-slate-400">+</span>
+            <div class="p-2 bg-sky-50 rounded-xl border border-sky-200">🎈</div>
+          </div>
+        `,
+        options: ["2", "3", "4", "1"],
+        answerIndex: 1
+      },
+      // 29. Time - Clock to the hour
+      {
+        id: 29,
+        domain: "Measurement & Data",
+        audio: "Look at the clock. The short hour hand points to 3. What time is it?",
+        prompt: "What time does this clock show?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center">
+            <svg viewBox="0 0 120 120" class="w-28 h-28 drop-shadow">
+              <circle cx="60" cy="60" r="54" fill="#ffffff" stroke="#0284c7" stroke-width="6"/>
+              <text x="60" y="24" text-anchor="middle" font-family="Fredoka" font-size="14" font-weight="bold" fill="#334155">12</text>
+              <text x="98" y="65" text-anchor="middle" font-family="Fredoka" font-size="14" font-weight="bold" fill="#334155">3</text>
+              <text x="60" y="104" text-anchor="middle" font-family="Fredoka" font-size="14" font-weight="bold" fill="#334155">6</text>
+              <text x="22" y="65" text-anchor="middle" font-family="Fredoka" font-size="14" font-weight="bold" fill="#334155">9</text>
+              <!-- Center pin -->
+              <circle cx="60" cy="60" r="4" fill="#0f172a"/>
+              <!-- Minute hand pointing to 12 -->
+              <line x1="60" y1="60" x2="60" y2="28" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
+              <!-- Hour hand pointing to 3 -->
+              <line x1="60" y1="60" x2="86" y2="60" stroke="#ef4444" stroke-width="5" stroke-linecap="round"/>
+            </svg>
+          </div>
+        `,
+        options: ["3:00", "12:00", "6:00", "9:00"],
+        answerIndex: 0
+      },
+      // 30. Hexagon side count
+      {
+        id: 30,
+        domain: "Geometry",
+        audio: "Count the sides on this yellow honeycomb shape. How many sides does a hexagon have?",
+        prompt: "How many sides does this shape have?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center">
+            <svg viewBox="0 0 120 100" class="w-28 h-24">
+              <polygon points="30,10 90,10 115,50 90,90 30,90 5,50" fill="#facc15" stroke="#ca8a04" stroke-width="4" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        `,
+        options: ["4", "5", "6", "8"],
+        answerIndex: 2
+      },
+      // 31. Number comparison - Less
+      {
+        id: 31,
+        domain: "Counting & Cardinality",
+        audio: "Which number is LESS (smaller)? 3 or 7?",
+        prompt: "Which number is LESS?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-6">
+            <div class="w-20 h-20 bg-teal-100 border-4 border-teal-500 rounded-2xl flex items-center justify-center font-fun text-4xl text-teal-800 font-bold shadow">3</div>
+            <div class="w-20 h-20 bg-indigo-100 border-4 border-indigo-500 rounded-2xl flex items-center justify-center font-fun text-4xl text-indigo-800 font-bold shadow">7</div>
+          </div>
+        `,
+        options: ["3", "7", "Neither"],
+        answerIndex: 0
+      },
+      // 32. Counting to 10
+      {
+        id: 32,
+        domain: "Counting & Cardinality",
+        audio: "Count the friendly ladybugs. How many ladybugs are there?",
+        prompt: "Count the ladybugs:",
+        graphicType: "svg",
+        graphic: `
+          <div class="grid grid-cols-5 gap-3 max-w-xs">
+            ${Array(9).fill('🐞').map(b => `<span class="text-3xl text-center transform hover:scale-110 transition">${b}</span>`).join('')}
+          </div>
+        `,
+        options: ["8", "9", "10", "7"],
+        answerIndex: 1
+      },
+      // 33. Positional word - In front of
+      {
+        id: 33,
+        domain: "Geometry",
+        audio: "Look at the box. Is the smiling star IN FRONT OF the box, or INSIDE the box?",
+        prompt: "Where is the star?",
+        graphicType: "svg",
+        graphic: `
+          <div class="relative flex items-center justify-center w-36 h-28">
+            <div class="w-24 h-24 bg-amber-200 border-4 border-amber-600 rounded-xl"></div>
+            <span class="absolute text-5xl drop-shadow-md">⭐</span>
+          </div>
+        `,
+        options: ["In front of the box", "Behind the box", "Under the box"],
+        answerIndex: 0
+      },
+      // 34. Non-standard measurement (paperclips)
+      {
+        id: 34,
+        domain: "Measurement & Data",
+        audio: "How many paperclips long is the pencil?",
+        prompt: "How many paperclips long is the pencil?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex flex-col items-center gap-2">
+            <div class="w-64 h-8 bg-amber-400 border-2 border-amber-600 rounded-l-md rounded-r-3xl flex items-center px-2 relative shadow">
+              <span class="text-xs font-bold text-amber-900">PENCIL</span>
+              <div class="absolute right-0 top-0 bottom-0 w-6 bg-pink-300 rounded-r-3xl border-l border-slate-300"></div>
+            </div>
+            <div class="flex gap-2">
+              <span class="text-2xl">📎</span>
+              <span class="text-2xl">📎</span>
+              <span class="text-2xl">📎</span>
+              <span class="text-2xl">📎</span>
+            </div>
+          </div>
+        `,
+        options: ["3 clips", "4 clips", "5 clips", "2 clips"],
+        answerIndex: 1
+      },
+      // 35. Make 10 equation
+      {
+        id: 35,
+        domain: "Operations & Algebraic Thinking",
+        audio: "What number plus 5 makes 10?",
+        prompt: "5 + ? = 10",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-3">
+            <span class="font-fun text-4xl font-bold text-sky-600">5</span>
+            <span class="font-fun text-3xl font-bold text-slate-400">+</span>
+            <div class="w-14 h-14 bg-sky-100 border-2 border-dashed border-sky-500 rounded-2xl flex items-center justify-center font-fun text-3xl font-bold text-sky-800">?</div>
+            <span class="font-fun text-3xl font-bold text-slate-400">=</span>
+            <span class="font-fun text-4xl font-bold text-emerald-600">10</span>
+          </div>
+        `,
+        options: ["4", "5", "6", "10"],
+        answerIndex: 1
+      },
+      // 36. Comparing length
+      {
+        id: 36,
+        domain: "Measurement & Data",
+        audio: "Which caterpillar is SHORTER?",
+        prompt: "Which caterpillar is SHORTER?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex flex-col items-start gap-4">
+            <div>
+              <span class="text-xs font-bold text-slate-500 block mb-1">Caterpillar A:</span>
+              <div class="flex text-2xl">🟢🟢🟢🟢🟢🟢🟢🐛</div>
+            </div>
+            <div>
+              <span class="text-xs font-bold text-slate-500 block mb-1">Caterpillar B:</span>
+              <div class="flex text-2xl">🟢🟢🟢🐛</div>
+            </div>
+          </div>
+        `,
+        options: ["Caterpillar A", "Caterpillar B", "Both are the same"],
+        answerIndex: 1
+      },
+      // 37. Counting zero
+      {
+        id: 37,
+        domain: "Counting & Cardinality",
+        audio: "How many cookies are in the empty jar?",
+        prompt: "How many cookies are in this jar?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center">
+            <div class="w-28 h-36 border-4 border-slate-300 bg-white/70 rounded-3xl p-3 flex flex-col items-center justify-center shadow-inner relative">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Empty</span>
+            </div>
+          </div>
+        `,
+        options: ["0", "1", "2", "10"],
+        answerIndex: 0
+      },
+      // 38. Solid 3D Cube
+      {
+        id: 38,
+        domain: "Geometry",
+        audio: "Which shape has 6 flat square faces, like a playing die?",
+        prompt: "Which 3D shape looks like a box or die?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center">
+            <svg viewBox="0 0 100 100" class="w-24 h-24">
+              <!-- Top face -->
+              <polygon points="50,15 85,32 50,50 15,32" fill="#93c5fd" stroke="#1d4ed8" stroke-width="2"/>
+              <!-- Left face -->
+              <polygon points="15,32 50,50 50,88 15,70" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2"/>
+              <!-- Right face -->
+              <polygon points="50,50 85,32 85,70 50,88" fill="#1d4ed8" stroke="#1e40af" stroke-width="2"/>
+            </svg>
+          </div>
+        `,
+        options: ["Cube", "Cylinder", "Sphere", "Triangle"],
+        answerIndex: 0
+      },
+      // 39. Decomposing 4 (Word problem)
+      {
+        id: 39,
+        domain: "Operations & Algebraic Thinking",
+        audio: "There are 4 frogs. 2 frogs are on a log, and the rest are swimming. How many frogs are swimming?",
+        prompt: "4 frogs total. 2 are on a log. How many swimming?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex items-center justify-center gap-6">
+            <div class="flex flex-col items-center bg-amber-100 p-2 rounded-xl border border-amber-300">
+              <span class="text-xs font-bold text-amber-800">On Log</span>
+              <span class="text-3xl">🐸🐸</span>
+            </div>
+            <span class="font-fun text-2xl font-bold text-slate-400">+</span>
+            <div class="flex flex-col items-center bg-sky-100 p-2 rounded-xl border border-sky-300">
+              <span class="text-xs font-bold text-sky-800">In Pond</span>
+              <span class="font-fun text-2xl font-bold text-sky-600">?</span>
+            </div>
+            <span class="font-fun text-2xl font-bold text-slate-400">= 4</span>
+          </div>
+        `,
+        options: ["1", "2", "3", "4"],
+        answerIndex: 1
+      },
+      // 40. Counting to 20
+      {
+        id: 40,
+        domain: "Numbers in Base Ten",
+        audio: "Two full ten frames show what total number?",
+        prompt: "How many dots in both 10-frames combined?",
+        graphicType: "svg",
+        graphic: `
+          <div class="flex flex-col gap-2">
+            <div class="border-2 border-indigo-500 bg-indigo-50/50 rounded-lg p-1.5 grid grid-cols-5 gap-1">
+              ${Array(10).fill('').map(() => `<div class="w-6 h-6 rounded-full bg-indigo-600"></div>`).join('')}
+            </div>
+            <div class="border-2 border-indigo-500 bg-indigo-50/50 rounded-lg p-1.5 grid grid-cols-5 gap-1">
+              ${Array(10).fill('').map(() => `<div class="w-6 h-6 rounded-full bg-indigo-600"></div>`).join('')}
+            </div>
+          </div>
+        `,
+        options: ["10", "15", "20", "25"],
+        answerIndex: 2
+      }
+    ];
+
+    // State
+    let currentIndex = 0;
+    let selectedAnswer = null;
+    let userAnswers = new Array(questions.length).fill(null);
+    let score = 0;
+    let questionAttempts = 0;
+
+    // DOM Elements
+    const promptTextEl = document.getElementById("promptText");
+    const domainBadgeEl = document.getElementById("domainBadge");
+    const graphicAreaEl = document.getElementById("graphicArea");
+    const optionsGridEl = document.getElementById("optionsGrid");
+    const readAloudBtn = document.getElementById("readAloudBtn");
+    const currentQNumEl = document.getElementById("currentQNum");
+    const totalQNumEl = document.getElementById("totalQNum");
+    const progressBarEl = document.getElementById("progressBar");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const scoreCounterEl = document.getElementById("scoreCounter");
+    const feedbackBannerEl = document.getElementById("feedbackBanner");
+    const feedbackTextEl = document.getElementById("feedbackText");
+    const questionContainer = document.getElementById("questionContainer");
+    const resultContainer = document.getElementById("resultContainer");
+    const restartBtn = document.getElementById("restartBtn");
+
+    // Sad Kitty Modal Elements
+    const sadKittyModal = document.getElementById("sadKittyModal");
+    const sadKittyTitle = document.getElementById("sadKittyTitle");
+    const sadKittyMessage = document.getElementById("sadKittyMessage");
+    const sadKittyActionBtn = document.getElementById("sadKittyActionBtn");
+
+    totalQNumEl.textContent = questions.length;
+
+    // Simple Web Audio API Sound synthesizer for Kid-friendly clicks & celebration
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function playTone(type) {
+      try {
+        if (!audioCtx) audioCtx = new AudioContextClass();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        const now = audioCtx.currentTime;
+
+        if (type === 'select') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.exponentialRampToValueAtTime(660, now + 0.08);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.09);
+        } else if (type === 'correct') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, now); // C5
+          osc.frequency.setValueAtTime(659.25, now + 0.09); // E5
+          osc.frequency.setValueAtTime(783.99, now + 0.18); // G5
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        } else if (type === 'sad') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(320, now);
+          osc.frequency.exponentialRampToValueAtTime(220, now + 0.28);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.28);
+          osc.start(now);
+          osc.stop(now + 0.29);
+        } else if (type === 'pop') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(300, now);
+          osc.frequency.exponentialRampToValueAtTime(800, now + 0.06);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.06);
+          osc.start(now);
+          osc.stop(now + 0.07);
+        }
+      } catch (e) {
+        // Fallback gracefully if Web Audio is blocked
+      }
+    }
+
+    function speakQuestion(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel(); // Stop current speech
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.9; // Friendly, slightly slower pace for Kindergarten
+      utterance.pitch = 1.1; // Cheerful friendly pitch
+
+      // Highlight button while speaking
+      readAloudBtn.classList.add('ring-4', 'ring-amber-300');
+      utterance.onend = () => {
+        readAloudBtn.classList.remove('ring-4', 'ring-amber-300');
+      };
+      utterance.onerror = () => {
+        readAloudBtn.classList.remove('ring-4', 'ring-amber-300');
+      };
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function renderQuestion(index) {
+      const q = questions[index];
+      questionAttempts = 0; // Reset attempts for new question
+      
+      // Update metadata & progress
+      domainBadgeEl.textContent = q.domain;
+      currentQNumEl.textContent = index + 1;
+      const progressPercent = ((index + 1) / questions.length) * 100;
+      progressBarEl.style.width = `${progressPercent}%`;
+
+      // Update Prompt and Graphic
+      promptTextEl.textContent = q.prompt;
+      graphicAreaEl.innerHTML = q.graphic;
+
+      // Reset or restore selection state
+      selectedAnswer = userAnswers[index];
+      updateNextButtonState();
+
+      // Clear feedback
+      feedbackBannerEl.style.opacity = '0';
+
+      // Render Options
+      optionsGridEl.innerHTML = '';
+      const isTwoColumn = q.options.length <= 3;
+      optionsGridEl.className = isTwoColumn 
+        ? "grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 my-2" 
+        : "grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 my-2";
+
+      q.options.forEach((opt, optIdx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.setAttribute("data-option-index", optIdx);
+        btn.className = `option-card p-4 sm:p-5 rounded-2xl border-4 font-fun text-xl sm:text-2xl font-bold flex items-center justify-center text-center shadow-sm cursor-pointer ${
+          selectedAnswer === optIdx
+            ? "option-selected text-sky-900 border-sky-500 bg-sky-50"
+            : "border-slate-200 bg-white hover:bg-slate-50 text-slate-800"
+        }`;
+        btn.innerHTML = `<span>${opt}</span>`;
+        btn.onclick = () => selectOption(optIdx);
+        optionsGridEl.appendChild(btn);
+      });
+
+      // Update Navigation Buttons
+      prevBtn.disabled = index === 0;
+      if (index === questions.length - 1) {
+        nextBtn.innerHTML = `<span>Finish</span> ⭐`;
+      } else {
+        nextBtn.innerHTML = `<span>Next</span> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>`;
+      }
+
+      // Re-trigger subtle card animation
+      questionContainer.classList.remove('pop-in');
+      void questionContainer.offsetWidth; // Trigger reflow
+      questionContainer.classList.add('pop-in');
+    }
+
+    function selectOption(index) {
+      playTone('select');
+      selectedAnswer = index;
+      userAnswers[currentIndex] = index;
+
+      // Update active styling
+      const buttons = optionsGridEl.querySelectorAll('.option-card');
+      buttons.forEach((btn) => {
+        const optIdx = parseInt(btn.getAttribute("data-option-index"));
+        if (optIdx === index) {
+          btn.classList.add('option-selected', 'text-sky-900', 'border-sky-500', 'bg-sky-50');
+          btn.classList.remove('border-slate-200', 'bg-white');
+        } else {
+          btn.classList.remove('option-selected', 'text-sky-900', 'border-sky-500', 'bg-sky-50');
+          if (!btn.disabled) {
+            btn.classList.add('border-slate-200', 'bg-white');
+          }
+        }
+      });
+
+      updateNextButtonState();
+
+      // Gentle instant encouragement
+      feedbackTextEl.className = "px-4 py-1.5 rounded-full font-bold bg-sky-100 text-sky-800 border border-sky-300 shadow-sm";
+      feedbackTextEl.innerHTML = `Answer selected! Click Next ➜`;
+      feedbackBannerEl.style.opacity = '1';
+    }
+
+    function updateNextButtonState() {
+      nextBtn.disabled = selectedAnswer === null;
+    }
+
+    function showSadKitty(attemptNum, currentQ) {
+      playTone('sad');
+      sadKittyModal.classList.remove('hidden');
+
+      if (attemptNum === 1) {
+        sadKittyTitle.textContent = "Uh-Oh! Try Again!";
+        sadKittyMessage.textContent = "The kitty is a little sad, but believes in you! Give it another try! 🐾";
+        sadKittyActionBtn.textContent = "Try Again 🐾";
+        sadKittyActionBtn.className = "w-full bg-pink-500 hover:bg-pink-600 text-white font-fun text-lg py-3.5 px-6 rounded-2xl shadow-lg border-b-4 border-pink-700 active:translate-y-1 transition";
+        speakQuestion("Oops, not quite! Try again, you can do it!");
+
+        sadKittyActionBtn.onclick = () => {
+          sadKittyModal.classList.add('hidden');
+          // Visually mark the incorrect button to help learner avoid repeating it
+          const buttons = optionsGridEl.querySelectorAll('.option-card');
+          buttons.forEach(btn => {
+            const optIdx = parseInt(btn.getAttribute("data-option-index"));
+            if (optIdx === selectedAnswer) {
+              btn.classList.remove('option-selected', 'border-sky-500', 'bg-sky-50');
+              btn.classList.add('border-rose-300', 'bg-rose-50', 'opacity-60', 'line-through');
+              btn.disabled = true;
+            }
+          });
+          // Clear current answer so they pick another
+          selectedAnswer = null;
+          userAnswers[currentIndex] = null;
+          updateNextButtonState();
+          feedbackTextEl.className = "px-4 py-1.5 rounded-full font-bold bg-amber-100 text-amber-800 border border-amber-300 shadow-sm";
+          feedbackTextEl.innerHTML = "Pick another answer! 🐾";
+          feedbackBannerEl.style.opacity = '1';
+        };
+      } else {
+        // Second incorrect attempt: let them move on
+        const correctText = currentQ.options[currentQ.answerIndex];
+        sadKittyTitle.textContent = "Good Try! Keep Going!";
+        sadKittyMessage.innerHTML = `That was tricky! The correct answer was <strong class="text-sky-700">${correctText}</strong>. Let's try the next one! 🐾`;
+        sadKittyActionBtn.textContent = "Next Question ➜";
+        sadKittyActionBtn.className = "w-full bg-sky-500 hover:bg-sky-600 text-white font-fun text-lg py-3.5 px-6 rounded-2xl shadow-lg border-b-4 border-sky-700 active:translate-y-1 transition";
+        speakQuestion(`Good try! The answer was ${correctText}. Let's go to the next question!`);
+
+        sadKittyActionBtn.onclick = () => {
+          sadKittyModal.classList.add('hidden');
+          advanceToNextQuestion();
+        };
+      }
+    }
+
+    function advanceToNextQuestion() {
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+        renderQuestion(currentIndex);
+      } else {
+        showResults();
+      }
+    }
+
+    function goNext() {
+      if (selectedAnswer === null) return;
+
+      const currentQ = questions[currentIndex];
+      const isCorrect = selectedAnswer === currentQ.answerIndex;
+
+      if (isCorrect) {
+        // Award point if solved (full star on first attempt)
+        if (questionAttempts === 0) {
+          score++;
+          scoreCounterEl.textContent = score;
+        }
+        playTone('correct');
+        advanceToNextQuestion();
+      } else {
+        // Incorrect answer logic
+        questionAttempts++;
+        showSadKitty(questionAttempts, currentQ);
+      }
+    }
+
+    function goPrev() {
+      if (currentIndex > 0) {
+        playTone('pop');
+        currentIndex--;
+        renderQuestion(currentIndex);
+      }
+    }
+
+    function showResults() {
+      if (window.speechSynthesis) window.speechSynthesis.cancel();
+      playTone('correct');
+
+      // Trigger Confetti!
+      try {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      } catch(e) {}
+
+      // Calculate domain stats
+      const domainStats = {};
+      questions.forEach((q, idx) => {
+        if (!domainStats[q.domain]) {
+          domainStats[q.domain] = { correct: 0, total: 0 };
+        }
+        domainStats[q.domain].total++;
+        if (userAnswers[idx] === q.answerIndex) {
+          domainStats[q.domain].correct++;
+        }
+      });
+
+      questionContainer.classList.add('hidden');
+      document.querySelector('footer').classList.add('hidden');
+      resultContainer.classList.remove('hidden');
+
+      const finalScoreEl = document.getElementById('finalScore');
+      finalScoreEl.textContent = score;
+
+      const gradeBadge = document.getElementById('gradeLevelBadge');
+      if (score >= 35) {
+        gradeBadge.textContent = "Super Star! (Grade 1 Ready)";
+        gradeBadge.className = "font-fun text-xl sm:text-2xl text-emerald-600 mt-1 block";
+      } else if (score >= 26) {
+        gradeBadge.textContent = "On Track (Kindergarten Master)";
+        gradeBadge.className = "font-fun text-xl sm:text-2xl text-sky-600 mt-1 block";
+      } else {
+        gradeBadge.textContent = "Growing Learner (Keep Practicing!)";
+        gradeBadge.className = "font-fun text-xl sm:text-2xl text-amber-600 mt-1 block";
+      }
+
+      // Populate domain breakdown
+      const breakdownEl = document.getElementById('domainBreakdown');
+      breakdownEl.innerHTML = '<h3 class="font-bold text-slate-800 border-b pb-1 mb-2">Subject Performance:</h3>';
+      for (const [dom, stat] of Object.entries(domainStats)) {
+        const pct = Math.round((stat.correct / stat.total) * 100);
+        breakdownEl.innerHTML += `
+          <div class="flex items-center justify-between py-1">
+            <span class="font-medium text-slate-700">${dom}</span>
+            <div class="flex items-center gap-2">
+              <div class="w-24 bg-slate-200 rounded-full h-2">
+                <div class="bg-sky-500 h-2 rounded-full" style="width: ${pct}%"></div>
+              </div>
+              <span class="font-bold text-xs w-10 text-right">${stat.correct}/${stat.total}</span>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function restartTest() {
+      currentIndex = 0;
+      selectedAnswer = null;
+      userAnswers = new Array(questions.length).fill(null);
+      score = 0;
+      scoreCounterEl.textContent = "0";
+      
+      resultContainer.classList.add('hidden');
+      questionContainer.classList.remove('hidden');
+      document.querySelector('footer').classList.remove('hidden');
+      
+      renderQuestion(0);
+    }
+
+    nextBtn.addEventListener('click', goNext);
+    prevBtn.addEventListener('click', goPrev);
+    restartBtn.addEventListener('click', restartTest);
+
+    readAloudBtn.addEventListener('click', () => {
+      const q = questions[currentIndex];
+      speakQuestion(q.audio || q.prompt);
+    });
+
+    // Keyboard support for teachers/parents
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+        goNext();
+      } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+        goPrev();
+      } else if (e.key === ' ' || e.key.toLowerCase() === 'r') {
+        const q = questions[currentIndex];
+        speakQuestion(q.audio || q.prompt);
+      }
+    });
+
+    // Initial render
+    window.onload = () => {
+      renderQuestion(0);
+    };
+  </script>
+</body>
+</html>
