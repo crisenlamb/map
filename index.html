@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta author="Cristian Gajardo">
+  <meta author="Cristian Gajardo2">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>MAP Math Kinder Practice</title>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -373,32 +373,50 @@
         options: ["6", "7", "8", "9"],
         answerIndex: 2
       },
-      // 3. Comparing Quantities (More)
+      // 3. 2D Shape Matching (Moved to Question 3 as requested)
       {
         id: 3,
-        domain: "Counting & Cardinality",
-        audio: "Which group has MORE fish? Group A or Group B?",
-        prompt: "Which group has MORE fish?",
-        graphicType: "svg",
-        graphic: `
-          <div class="flex items-center justify-around w-full max-w-md gap-4">
-            <div class="border-2 border-dashed border-sky-400 bg-sky-50 rounded-2xl p-3 flex flex-col items-center flex-1">
-              <span class="font-fun text-sky-800 font-bold mb-1">Group A</span>
-              <div class="flex flex-wrap gap-2 justify-center">
-                ${Array(4).fill('🐟').map(f => `<span class="text-2xl">${f}</span>`).join('')}
-              </div>
-            </div>
-            <span class="font-fun font-bold text-slate-400 text-xl">OR</span>
-            <div class="border-2 border-dashed border-amber-400 bg-amber-50 rounded-2xl p-3 flex flex-col items-center flex-1">
-              <span class="font-fun text-amber-800 font-bold mb-1">Group B</span>
-              <div class="flex flex-wrap gap-2 justify-center">
-                ${Array(8).fill('🐠').map(f => `<span class="text-2xl">${f}</span>`).join('')}
-              </div>
-            </div>
-          </div>
-        `,
-        options: ["Group A", "Group B", "They are equal"],
-        answerIndex: 1
+        type: "drag-match",
+        domain: "Geometry",
+        audio: "Identify each shape. Place each shape name under its matching shape.",
+        prompt: "Place the name under each shape:",
+        shapes: [
+          {
+            name: "Triangle",
+            svg: `
+              <svg viewBox="0 0 100 90" class="w-20 h-18 sm:w-24 sm:h-20 drop-shadow">
+                <polygon points="50,10 90,80 10,80" fill="#38bdf8" stroke="#0284c7" stroke-width="4" stroke-linejoin="round"/>
+              </svg>
+            `
+          },
+          {
+            name: "Rectangle",
+            svg: `
+              <svg viewBox="0 0 100 90" class="w-20 h-18 sm:w-24 sm:h-20 drop-shadow">
+                <g transform="rotate(35 50 45)">
+                  <rect x="15" y="25" width="70" height="40" rx="3" fill="#a78bfa" stroke="#7c3aed" stroke-width="4"/>
+                </g>
+              </svg>
+            `
+          },
+          {
+            name: "Circle",
+            svg: `
+              <svg viewBox="0 0 100 90" class="w-20 h-18 sm:w-24 sm:h-20 drop-shadow">
+                <circle cx="50" cy="45" r="34" fill="#fb7185" stroke="#e11d48" stroke-width="4"/>
+              </svg>
+            `
+          },
+          {
+            name: "Square",
+            svg: `
+              <svg viewBox="0 0 100 90" class="w-20 h-18 sm:w-24 sm:h-20 drop-shadow">
+                <rect x="18" y="13" width="64" height="64" rx="4" fill="#4ade80" stroke="#16a34a" stroke-width="4"/>
+              </svg>
+            `
+          }
+        ],
+        wordBank: ["Square", "Circle", "Rectangle", "Triangle"]
       },
       // 4. Basic Addition with pictures
       {
@@ -765,21 +783,31 @@
         options: ["Dogs", "Cats", "Birds"],
         answerIndex: 0
       },
-      // 16. Shape sides count
+      // 16. Comparing Quantities (More)
       {
         id: 16,
-        domain: "Geometry",
-        audio: "How many straight sides does a rectangle have?",
-        prompt: "How many straight sides does this rectangle have?",
+        domain: "Counting & Cardinality",
+        audio: "Which group has MORE fish? Group A or Group B?",
+        prompt: "Which group has MORE fish?",
         graphicType: "svg",
         graphic: `
-          <div class="flex items-center justify-center">
-            <div class="w-44 h-24 bg-emerald-100 border-4 border-emerald-500 rounded flex items-center justify-center font-fun text-emerald-800 text-sm font-semibold">
-              Rectangle
+          <div class="flex items-center justify-around w-full max-w-md gap-4">
+            <div class="border-2 border-dashed border-sky-400 bg-sky-50 rounded-2xl p-3 flex flex-col items-center flex-1">
+              <span class="font-fun text-sky-800 font-bold mb-1">Group A</span>
+              <div class="flex flex-wrap gap-2 justify-center">
+                ${Array(4).fill('🐟').map(f => `<span class="text-2xl">${f}</span>`).join('')}
+              </div>
+            </div>
+            <span class="font-fun font-bold text-slate-400 text-xl">OR</span>
+            <div class="border-2 border-dashed border-amber-400 bg-amber-50 rounded-2xl p-3 flex flex-col items-center flex-1">
+              <span class="font-fun text-amber-800 font-bold mb-1">Group B</span>
+              <div class="flex flex-wrap gap-2 justify-center">
+                ${Array(8).fill('🐠').map(f => `<span class="text-2xl">${f}</span>`).join('')}
+              </div>
             </div>
           </div>
         `,
-        options: ["3", "4", "5", "0"],
+        options: ["Group A", "Group B", "They are equal"],
         answerIndex: 1
       },
       // 17. Pattern completion (AB pattern)
@@ -1347,9 +1375,12 @@
       window.speechSynthesis.speak(utterance);
     }
 
+    let activeSelectedWord = null;
+
     function renderQuestion(index) {
       const q = questions[index];
       questionAttempts = 0; // Reset attempts for new question
+      activeSelectedWord = null;
       
       // Update metadata & progress
       domainBadgeEl.textContent = q.domain;
@@ -1357,37 +1388,18 @@
       const progressPercent = ((index + 1) / questions.length) * 100;
       progressBarEl.style.width = `${progressPercent}%`;
 
-      // Update Prompt and Graphic
+      // Update Prompt
       promptTextEl.textContent = q.prompt;
-      graphicAreaEl.innerHTML = q.graphic;
-
-      // Reset or restore selection state
-      selectedAnswer = userAnswers[index];
-      updateNextButtonState();
 
       // Clear feedback
       feedbackBannerEl.style.opacity = '0';
 
-      // Render Options
-      optionsGridEl.innerHTML = '';
-      const isTwoColumn = q.options.length <= 3;
-      optionsGridEl.className = isTwoColumn 
-        ? "grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 my-2" 
-        : "grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 my-2";
-
-      q.options.forEach((opt, optIdx) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.setAttribute("data-option-index", optIdx);
-        btn.className = `option-card p-4 sm:p-5 rounded-2xl border-4 font-fun text-xl sm:text-2xl font-bold flex items-center justify-center text-center shadow-sm cursor-pointer ${
-          selectedAnswer === optIdx
-            ? "option-selected text-sky-900 border-sky-500 bg-sky-50"
-            : "border-slate-200 bg-white hover:bg-slate-50 text-slate-800"
-        }`;
-        btn.innerHTML = `<span>${opt}</span>`;
-        btn.onclick = () => selectOption(optIdx);
-        optionsGridEl.appendChild(btn);
-      });
+      // Branch based on question type
+      if (q.type === "drag-match") {
+        renderDragMatchQuestion(q, index);
+      } else {
+        renderStandardQuestion(q, index);
+      }
 
       // Update Navigation Buttons
       prevBtn.disabled = index === 0;
@@ -1401,6 +1413,188 @@
       questionContainer.classList.remove('pop-in');
       void questionContainer.offsetWidth; // Trigger reflow
       questionContainer.classList.add('pop-in');
+    }
+
+    function renderStandardQuestion(q, index) {
+      graphicAreaEl.classList.remove('hidden');
+      graphicAreaEl.innerHTML = q.graphic;
+
+      selectedAnswer = userAnswers[index];
+      updateNextButtonState();
+
+      optionsGridEl.innerHTML = '';
+      const isTwoColumn = (q.options && q.options.length <= 3);
+      optionsGridEl.className = isTwoColumn 
+        ? "grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 my-2" 
+        : "grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 my-2";
+
+      (q.options || []).forEach((opt, optIdx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.setAttribute("data-option-index", optIdx);
+        btn.className = `option-card p-4 sm:p-5 rounded-2xl border-4 font-fun text-xl sm:text-2xl font-bold flex items-center justify-center text-center shadow-sm cursor-pointer ${
+          selectedAnswer === optIdx
+            ? "option-selected text-sky-900 border-sky-500 bg-sky-50"
+            : "border-slate-200 bg-white hover:bg-slate-50 text-slate-800"
+        }`;
+        btn.innerHTML = `<span>${opt}</span>`;
+        btn.onclick = () => selectOption(optIdx);
+        optionsGridEl.appendChild(btn);
+      });
+    }
+
+    function renderDragMatchQuestion(q, index) {
+      if (!userAnswers[index] || typeof userAnswers[index] !== 'object') {
+        userAnswers[index] = {};
+      }
+      const placements = userAnswers[index]; // Map shapeIndex -> word
+
+      // Hide graphicArea to maximize vertical space for drag-and-drop grid
+      graphicAreaEl.classList.add('hidden');
+      graphicAreaEl.innerHTML = '';
+
+      // Set optionsGrid layout: top 2x2 shapes grid, bottom word bank
+      optionsGridEl.className = "flex flex-col gap-4 my-1 w-full";
+      optionsGridEl.innerHTML = `
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 w-full" id="shapesGridContainer">
+          ${q.shapes.map((sh, idx) => `
+            <div class="bg-slate-50/90 border-2 border-slate-200 rounded-2xl p-2.5 sm:p-3 flex flex-col items-center justify-between min-h-[160px] sm:min-h-[175px] shadow-sm">
+              <div class="flex-grow flex items-center justify-center">
+                ${sh.svg}
+              </div>
+              <div class="w-full mt-2">
+                <div class="drop-slot min-h-[44px] sm:min-h-[48px] border-2 border-dashed ${placements[idx] ? 'border-sky-500 bg-sky-50' : 'border-slate-300 bg-white'} rounded-xl flex items-center justify-center p-1 text-center cursor-pointer shadow-inner" 
+                     data-shape-index="${idx}">
+                  ${placements[idx] ? `
+                    <span class="font-fun font-bold text-sky-800 text-sm sm:text-base px-2 py-1 bg-white rounded-lg border border-sky-300 shadow-sm flex items-center gap-1.5 animate-bounce-short">
+                      ${placements[idx]}
+                      <button type="button" class="text-xs text-rose-500 hover:text-rose-700 font-bold ml-1" title="Remove">✕</button>
+                    </span>
+                  ` : `
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tap or Drop</span>
+                  `}
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- Word Bank -->
+        <div class="bg-amber-50/90 border-2 border-amber-200 rounded-2xl p-3 shadow-inner">
+          <p class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-2 text-center">
+            Tap a word, then tap under its shape (or drag):
+          </p>
+          <div id="wordBankList" class="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+            ${q.wordBank.map(w => {
+              const isUsed = Object.values(placements).includes(w);
+              return `
+                <div draggable="${!isUsed}" 
+                     data-word="${w}"
+                     class="word-badge font-fun font-bold text-sm sm:text-lg px-4 py-2 rounded-xl shadow-md border-2 select-none ${
+                       isUsed 
+                         ? 'bg-slate-200 text-slate-400 border-slate-300 opacity-40 cursor-not-allowed pointer-events-none'
+                         : 'bg-white hover:bg-sky-50 text-sky-900 border-sky-400 cursor-pointer active:scale-95'
+                     }">
+                  ${w}
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+
+      setupDragAndDropEvents(q, index);
+      updateDragNextButtonState(q, index);
+    }
+
+    function setupDragAndDropEvents(q, index) {
+      const badges = optionsGridEl.querySelectorAll('.word-badge');
+      const dropSlots = optionsGridEl.querySelectorAll('.drop-slot');
+
+      // Click / Tap-to-Place Logic (optimized for young children and touchscreen tablets)
+      badges.forEach(badge => {
+        badge.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const word = badge.getAttribute('data-word');
+          
+          if (activeSelectedWord === word) {
+            // Unselect
+            activeSelectedWord = null;
+            badge.classList.remove('ring-4', 'ring-amber-400', 'bg-amber-100');
+          } else {
+            badges.forEach(b => b.classList.remove('ring-4', 'ring-amber-400', 'bg-amber-100'));
+            activeSelectedWord = word;
+            badge.classList.add('ring-4', 'ring-amber-400', 'bg-amber-100');
+            playTone('select');
+          }
+        });
+
+        // HTML5 Drag
+        badge.addEventListener('dragstart', (e) => {
+          const word = badge.getAttribute('data-word');
+          e.dataTransfer.setData('text/plain', word);
+          playTone('select');
+        });
+      });
+
+      dropSlots.forEach(slot => {
+        const shIdx = parseInt(slot.getAttribute('data-shape-index'));
+
+        // Tap on slot
+        slot.addEventListener('click', () => {
+          const placements = userAnswers[index] || {};
+
+          // If slot already has word, tapping removes it
+          if (placements[shIdx]) {
+            delete placements[shIdx];
+            playTone('pop');
+            renderDragMatchQuestion(q, index);
+            return;
+          }
+
+          // If a word in bank is highlighted, place it here
+          if (activeSelectedWord) {
+            placements[shIdx] = activeSelectedWord;
+            activeSelectedWord = null;
+            playTone('correct');
+            renderDragMatchQuestion(q, index);
+          }
+        });
+
+        // Drag & drop listeners
+        slot.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          slot.classList.add('drag-over');
+        });
+
+        slot.addEventListener('dragleave', () => {
+          slot.classList.remove('drag-over');
+        });
+
+        slot.addEventListener('drop', (e) => {
+          e.preventDefault();
+          slot.classList.remove('drag-over');
+          const word = e.dataTransfer.getData('text/plain');
+          if (word) {
+            const placements = userAnswers[index] || {};
+            placements[shIdx] = word;
+            playTone('correct');
+            renderDragMatchQuestion(q, index);
+          }
+        });
+      });
+    }
+
+    function updateDragNextButtonState(q, index) {
+      const placements = userAnswers[index] || {};
+      const filledCount = Object.keys(placements).length;
+      nextBtn.disabled = filledCount < q.shapes.length;
+
+      if (filledCount === q.shapes.length) {
+        feedbackTextEl.className = "px-4 py-1.5 rounded-full font-bold bg-sky-100 text-sky-800 border border-sky-300 shadow-sm";
+        feedbackTextEl.innerHTML = "All shapes labeled! Click Next ➜";
+        feedbackBannerEl.style.opacity = '1';
+      }
     }
 
     function selectOption(index) {
