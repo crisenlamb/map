@@ -404,7 +404,7 @@
         id: 4,
         domain: "Operations & Algebraic Thinking",
         audio: "Three yellow chicks plus two yellow chicks. How many chicks in all?",
-        prompt: "3 chicks + 2 chicks = ?",
+        prompt: "3 chicks + 2 chicks = ",
         graphicType: "svg",
         graphic: `
           <div class="flex items-center justify-center gap-3 sm:gap-6">
@@ -416,18 +416,18 @@
               <span class="text-3xl">🐥</span><span class="text-3xl">🐥</span>
             </div>
             <span class="font-fun text-3xl font-bold text-slate-600">=</span>
-            <span class="font-fun text-3xl font-bold text-sky-600">?</span>
+            <div class="w-12 h-12 bg-sky-50 rounded-xl border-2 border-dashed border-sky-400"></div>
           </div>
         `,
         options: ["4", "5", "6", "3"],
         answerIndex: 1
       },
-      // 5. Horizontal Addition Equation (1 + 3 = ?)
+      // 5. Horizontal Addition Equation (1 + 3 = )
       {
         id: 5,
         domain: "Operations & Algebraic Thinking",
         audio: "What is 1 plus 3? Select the correct answer.",
-        prompt: "Solve: 1 + 3 = ?",
+        prompt: "Solve: 1 + 3 =",
         graphicType: "svg",
         graphic: `
           <div class="flex items-center justify-center gap-3 sm:gap-5 bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-indigo-200 rounded-2xl p-4 shadow-sm">
@@ -435,18 +435,18 @@
             <span class="font-fun text-3xl sm:text-4xl font-extrabold text-amber-500">+</span>
             <div class="w-14 h-16 bg-white rounded-xl shadow-md border-2 border-indigo-300 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-indigo-700">3</div>
             <span class="font-fun text-3xl sm:text-4xl font-extrabold text-slate-400">=</span>
-            <div class="w-14 h-16 bg-amber-100 rounded-xl border-2 border-dashed border-amber-400 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-amber-800 shadow-inner">?</div>
+            <div class="w-14 h-16 bg-amber-50 rounded-xl border-2 border-dashed border-amber-400 shadow-inner"></div>
           </div>
         `,
         options: ["3", "4", "5", "2"],
         answerIndex: 1
       },
-      // 6. Horizontal Subtraction Equation (3 - 1 = ?)
+      // 6. Horizontal Subtraction Equation (3 - 1 = )
       {
         id: 6,
         domain: "Operations & Algebraic Thinking",
         audio: "What is 3 minus 1? Select the correct answer.",
-        prompt: "Solve: 3 - 1 = ?",
+        prompt: "Solve: 3 - 1 =",
         graphicType: "svg",
         graphic: `
           <div class="flex items-center justify-center gap-3 sm:gap-5 bg-gradient-to-r from-rose-50 to-orange-50 border-2 border-rose-200 rounded-2xl p-4 shadow-sm">
@@ -454,7 +454,7 @@
             <span class="font-fun text-4xl font-extrabold text-rose-500">−</span>
             <div class="w-14 h-16 bg-white rounded-xl shadow-md border-2 border-rose-300 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-rose-700">1</div>
             <span class="font-fun text-3xl sm:text-4xl font-extrabold text-slate-400">=</span>
-            <div class="w-14 h-16 bg-amber-100 rounded-xl border-2 border-dashed border-amber-400 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-amber-800 shadow-inner">?</div>
+            <div class="w-14 h-16 bg-amber-50 rounded-xl border-2 border-dashed border-amber-400 shadow-inner"></div>
           </div>
         `,
         options: ["1", "2", "3", "4"],
@@ -477,7 +477,7 @@
               </div>
               <div class="w-full border-b-4 border-slate-700 mt-2"></div>
               <div class="w-full flex justify-end pt-2">
-                <span class="font-fun text-3xl sm:text-4xl font-bold text-amber-600 mr-3">?</span>
+                <div class="w-12 h-10 border-2 border-dashed border-sky-300 rounded-lg mr-1 bg-sky-50/50"></div>
               </div>
             </div>
           </div>
@@ -487,7 +487,7 @@
       },
       // 8. Stacked/Vertical Subtraction Problem
       {
-        id: 9,
+        id: 8,
         domain: "Operations & Algebraic Thinking",
         audio: "Look at the math problem: 5 minus 2. What is 5 take away 2?",
         prompt: "Subtract the numbers:",
@@ -502,7 +502,7 @@
               </div>
               <div class="w-full border-b-4 border-slate-700 mt-2"></div>
               <div class="w-full flex justify-end pt-2">
-                <span class="font-fun text-3xl sm:text-4xl font-bold text-emerald-600 mr-3">?</span>
+                <div class="w-12 h-10 border-2 border-dashed border-emerald-300 rounded-lg mr-1 bg-emerald-50/50"></div>
               </div>
             </div>
           </div>
@@ -510,12 +510,12 @@
         options: ["2", "3", "4", "1"],
         answerIndex: 1
       },
-      // 10. Horizontal Addition (2 + 2 = ?)
+      // 9. Horizontal Addition (2 + 2 = )
       {
-        id: 10,
+        id: 9,
         domain: "Operations & Algebraic Thinking",
         audio: "What is 2 plus 2? Choose the correct number.",
-        prompt: "Solve: 2 + 2 = ?",
+        prompt: "Solve: 2 + 2 =",
         graphicType: "svg",
         graphic: `
           <div class="flex items-center justify-center gap-3 sm:gap-5 bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-200 rounded-2xl p-4 shadow-sm">
@@ -523,15 +523,15 @@
             <span class="font-fun text-3xl sm:text-4xl font-extrabold text-purple-500">+</span>
             <div class="w-14 h-16 bg-white rounded-xl shadow-md border-2 border-purple-300 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-purple-700">2</div>
             <span class="font-fun text-3xl sm:text-4xl font-extrabold text-slate-400">=</span>
-            <div class="w-14 h-16 bg-amber-100 rounded-xl border-2 border-dashed border-amber-400 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-amber-800 shadow-inner">?</div>
+            <div class="w-14 h-16 bg-amber-50 rounded-xl border-2 border-dashed border-amber-400 shadow-inner"></div>
           </div>
         `,
         options: ["3", "4", "5", "6"],
         answerIndex: 1
       },
-      // 11. Stacked Addition (4 + 1)
+      // 10. Stacked Addition (4 + 1)
       {
-        id: 11,
+        id: 10,
         domain: "Operations & Algebraic Thinking",
         audio: "Add four plus one. What is the answer?",
         prompt: "Add the numbers:",
@@ -546,7 +546,7 @@
               </div>
               <div class="w-full border-b-4 border-slate-700 mt-2"></div>
               <div class="w-full flex justify-end pt-2">
-                <span class="font-fun text-3xl sm:text-4xl font-bold text-amber-600 mr-3">?</span>
+                <div class="w-12 h-10 border-2 border-dashed border-amber-300 rounded-lg mr-1 bg-amber-50/50"></div>
               </div>
             </div>
           </div>
@@ -554,12 +554,12 @@
         options: ["3", "4", "5", "6"],
         answerIndex: 2
       },
-      // 12. Horizontal Subtraction (4 - 2 = ?)
+      // 11. Horizontal Subtraction (4 - 2 = )
       {
-        id: 12,
+        id: 11,
         domain: "Operations & Algebraic Thinking",
         audio: "Solve four minus two. Select the correct answer.",
-        prompt: "Solve: 4 - 2 = ?",
+        prompt: "Solve: 4 - 2 =",
         graphicType: "svg",
         graphic: `
           <div class="flex items-center justify-center gap-3 sm:gap-5 bg-gradient-to-r from-teal-50 to-cyan-50 border-2 border-teal-200 rounded-2xl p-4 shadow-sm">
@@ -567,15 +567,15 @@
             <span class="font-fun text-4xl font-extrabold text-teal-600">−</span>
             <div class="w-14 h-16 bg-white rounded-xl shadow-md border-2 border-teal-300 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-teal-700">2</div>
             <span class="font-fun text-3xl sm:text-4xl font-extrabold text-slate-400">=</span>
-            <div class="w-14 h-16 bg-amber-100 rounded-xl border-2 border-dashed border-amber-400 flex items-center justify-center font-fun text-3xl sm:text-4xl font-bold text-amber-800 shadow-inner">?</div>
+            <div class="w-14 h-16 bg-amber-50 rounded-xl border-2 border-dashed border-amber-400 shadow-inner"></div>
           </div>
         `,
         options: ["1", "2", "3", "0"],
         answerIndex: 1
       },
-      // 8. Number Pattern / What comes next
+      // 12. Number Pattern / What comes next
       {
-        id: 8,
+        id: 12,
         domain: "Operations & Algebraic Thinking",
         audio: "Look at the number train: 2, 3, 4, blank. What number comes next?",
         prompt: "What number comes next? 2, 3, 4, ___",
@@ -585,15 +585,15 @@
             <div class="w-14 h-14 bg-amber-400 text-amber-950 font-fun font-bold text-2xl rounded-2xl flex items-center justify-center border-b-4 border-amber-600 shadow">2</div>
             <div class="w-14 h-14 bg-amber-400 text-amber-950 font-fun font-bold text-2xl rounded-2xl flex items-center justify-center border-b-4 border-amber-600 shadow">3</div>
             <div class="w-14 h-14 bg-amber-400 text-amber-950 font-fun font-bold text-2xl rounded-2xl flex items-center justify-center border-b-4 border-amber-600 shadow">4</div>
-            <div class="w-14 h-14 bg-sky-200 text-sky-800 font-fun font-bold text-3xl rounded-2xl flex items-center justify-center border-2 border-dashed border-sky-500 shadow-inner">?</div>
+            <div class="w-14 h-14 bg-sky-100 rounded-2xl flex items-center justify-center border-2 border-dashed border-sky-400 shadow-inner"></div>
           </div>
         `,
         options: ["5", "6", "1", "7"],
         answerIndex: 0
       },
-      // 9. 3D Shape identification
+      // 13. 3D Shape identification
       {
-        id: 9,
+        id: 13,
         domain: "Geometry",
         audio: "Which of these 3D solid shapes is a sphere, like a ball?",
         prompt: "Which 3D shape is a SPHERE?",
@@ -618,9 +618,9 @@
         options: ["Sphere", "Cube", "Cone", "Cylinder"],
         answerIndex: 0
       },
-      // 10. Counting on Ten Frame (making 10)
+      // 14. Counting on Ten Frame (making 10)
       {
-        id: 10,
+        id: 14,
         domain: "Operations & Algebraic Thinking",
         audio: "How many MORE blue dots are needed to fill the whole ten frame?",
         prompt: "How many MORE dots to make 10?",
@@ -629,7 +629,7 @@
           <div class="border-4 border-sky-700 bg-white rounded-xl p-2 inline-grid grid-cols-5 grid-rows-2 gap-2 shadow-md">
             ${[1,1,1,1,1, 1,1,0,0,0].map(filled => `
               <div class="w-12 h-12 border-2 border-sky-200 rounded-lg flex items-center justify-center bg-sky-50/40">
-                ${filled ? `<div class="w-9 h-9 rounded-full bg-sky-500 shadow border-2 border-sky-700"></div>` : `<span class="text-slate-300 font-bold text-lg">?</span>`}
+                ${filled ? `<div class="w-9 h-9 rounded-full bg-sky-500 shadow border-2 border-sky-700"></div>` : `<div class="w-7 h-7 rounded-full border-2 border-dashed border-sky-300"></div>`}
               </div>
             `).join('')}
           </div>
@@ -637,9 +637,9 @@
         options: ["2", "3", "4", "5"],
         answerIndex: 1
       },
-      // 11. Spatial reasoning / Positional words
+      // 15. Spatial reasoning / Positional words
       {
-        id: 11,
+        id: 15,
         domain: "Geometry",
         audio: "Look at the table. Where is the cat? Is it under the table, or on top of the table?",
         prompt: "The cat is ______ the table.",
@@ -658,12 +658,12 @@
         options: ["On top of", "Under", "Behind", "Far away"],
         answerIndex: 1
       },
-      // 12. Decomposing 5
+      // 16. Decomposing 5
       {
-        id: 12,
+        id: 16,
         domain: "Operations & Algebraic Thinking",
         audio: "5 can be broken into 4 and what other number?",
-        prompt: "4 + ? = 5",
+        prompt: "4 + ___ = 5",
         graphicType: "svg",
         graphic: `
           <div class="flex items-center justify-center gap-3">
@@ -671,7 +671,7 @@
               <span class="text-3xl">🌸</span><span class="text-3xl">🌸</span><span class="text-3xl">🌸</span><span class="text-3xl">🌸</span>
             </div>
             <span class="font-fun text-2xl font-bold text-slate-500">and</span>
-            <div class="w-12 h-12 bg-sky-100 border-2 border-dashed border-sky-400 rounded-xl flex items-center justify-center font-fun text-2xl text-sky-700 font-bold">?</div>
+            <div class="w-12 h-12 bg-sky-50 border-2 border-dashed border-sky-400 rounded-xl"></div>
             <span class="font-fun text-2xl font-bold text-slate-500">= 5</span>
           </div>
         `,
@@ -791,7 +791,7 @@
         graphic: `
           <div class="flex items-center justify-center gap-2 text-3xl">
             <span>❤️</span><span>💙</span><span>❤️</span><span>💙</span><span>❤️</span>
-            <div class="w-10 h-10 border-2 border-dashed border-sky-500 rounded-lg flex items-center justify-center bg-sky-50 text-xl font-bold text-sky-700">?</div>
+            <div class="w-10 h-10 border-2 border-dashed border-sky-500 rounded-lg bg-sky-50"></div>
           </div>
         `,
         options: ["💙 Blue Heart", "❤️ Red Heart", "⭐ Yellow Star", "🟢 Green Circle"],
@@ -942,7 +942,7 @@
             <span class="text-slate-400">→</span>
             <span class="font-fun font-bold text-2xl text-slate-700">6</span>
             <span class="text-slate-400">→</span>
-            <div class="w-10 h-10 bg-amber-200 border-2 border-amber-500 rounded-xl flex items-center justify-center font-fun text-2xl font-bold text-amber-900">?</div>
+            <div class="w-10 h-10 bg-amber-100 border-2 border-dashed border-amber-400 rounded-xl"></div>
             <span class="text-slate-400">→</span>
             <span class="font-fun font-bold text-2xl text-slate-700">8</span>
           </div>
@@ -1003,32 +1003,29 @@
         options: ["2", "3", "4", "1"],
         answerIndex: 1
       },
-      // 29. Time - Clock to the hour
+      // 29. Time - Digital Clock ("Which clock says eight o'clock?")
       {
         id: 29,
         domain: "Measurement & Data",
-        audio: "Look at the clock. The short hour hand points to 3. What time is it?",
-        prompt: "What time does this clock show?",
+        audio: "Which clock says eight o'clock?",
+        prompt: "Which clock says eight o'clock?",
         graphicType: "svg",
         graphic: `
-          <div class="flex items-center justify-center">
-            <svg viewBox="0 0 120 120" class="w-28 h-28 drop-shadow">
-              <circle cx="60" cy="60" r="54" fill="#ffffff" stroke="#0284c7" stroke-width="6"/>
-              <text x="60" y="24" text-anchor="middle" font-family="Fredoka" font-size="14" font-weight="bold" fill="#334155">12</text>
-              <text x="98" y="65" text-anchor="middle" font-family="Fredoka" font-size="14" font-weight="bold" fill="#334155">3</text>
-              <text x="60" y="104" text-anchor="middle" font-family="Fredoka" font-size="14" font-weight="bold" fill="#334155">6</text>
-              <text x="22" y="65" text-anchor="middle" font-family="Fredoka" font-size="14" font-weight="bold" fill="#334155">9</text>
-              <!-- Center pin -->
-              <circle cx="60" cy="60" r="4" fill="#0f172a"/>
-              <!-- Minute hand pointing to 12 -->
-              <line x1="60" y1="60" x2="60" y2="28" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
-              <!-- Hour hand pointing to 3 -->
-              <line x1="60" y1="60" x2="86" y2="60" stroke="#ef4444" stroke-width="5" stroke-linecap="round"/>
-            </svg>
+          <div class="flex flex-col items-center justify-center py-2">
+            <div class="flex items-center gap-3 bg-slate-900 text-amber-300 px-6 py-3 rounded-2xl shadow-lg border-4 border-slate-700">
+              <span class="text-2xl">⏰</span>
+              <span class="font-fun text-xl sm:text-2xl tracking-wide text-white font-bold">Listen: <span class="text-amber-300">"Eight o'clock"</span></span>
+            </div>
+            <span class="text-xs text-slate-500 font-bold mt-2">Find the matching digital clock below:</span>
           </div>
         `,
-        options: ["3:00", "12:00", "6:00", "9:00"],
-        answerIndex: 0
+        options: [
+          `<div class="inline-flex items-center justify-center px-4 py-2 bg-slate-900 text-emerald-400 font-mono text-2xl sm:text-3xl font-bold rounded-xl border-2 border-slate-700 shadow-inner tracking-wider">8:18</div>`,
+          `<div class="inline-flex items-center justify-center px-4 py-2 bg-slate-900 text-emerald-400 font-mono text-2xl sm:text-3xl font-bold rounded-xl border-2 border-slate-700 shadow-inner tracking-wider">8:00</div>`,
+          `<div class="inline-flex items-center justify-center px-4 py-2 bg-slate-900 text-emerald-400 font-mono text-2xl sm:text-3xl font-bold rounded-xl border-2 border-slate-700 shadow-inner tracking-wider">8:08</div>`,
+          `<div class="inline-flex items-center justify-center px-4 py-2 bg-slate-900 text-emerald-400 font-mono text-2xl sm:text-3xl font-bold rounded-xl border-2 border-slate-700 shadow-inner tracking-wider">8:28</div>`
+        ],
+        answerIndex: 1
       },
       // 30. Hexagon side count
       {
@@ -1123,13 +1120,13 @@
         id: 35,
         domain: "Operations & Algebraic Thinking",
         audio: "What number plus 5 makes 10?",
-        prompt: "5 + ? = 10",
+        prompt: "5 + ___ = 10",
         graphicType: "svg",
         graphic: `
           <div class="flex items-center justify-center gap-3">
             <span class="font-fun text-4xl font-bold text-sky-600">5</span>
             <span class="font-fun text-3xl font-bold text-slate-400">+</span>
-            <div class="w-14 h-14 bg-sky-100 border-2 border-dashed border-sky-500 rounded-2xl flex items-center justify-center font-fun text-3xl font-bold text-sky-800">?</div>
+            <div class="w-14 h-14 bg-sky-50 border-2 border-dashed border-sky-400 rounded-2xl"></div>
             <span class="font-fun text-3xl font-bold text-slate-400">=</span>
             <span class="font-fun text-4xl font-bold text-emerald-600">10</span>
           </div>
@@ -1212,9 +1209,8 @@
               <span class="text-3xl">🐸🐸</span>
             </div>
             <span class="font-fun text-2xl font-bold text-slate-400">+</span>
-            <div class="flex flex-col items-center bg-sky-100 p-2 rounded-xl border border-sky-300">
-              <span class="text-xs font-bold text-sky-800">In Pond</span>
-              <span class="font-fun text-2xl font-bold text-sky-600">?</span>
+            <div class="flex flex-col items-center bg-sky-50 p-2 rounded-xl border-2 border-dashed border-sky-300 w-16 h-16 justify-center">
+              <span class="text-[11px] font-bold text-sky-700">In Pond</span>
             </div>
             <span class="font-fun text-2xl font-bold text-slate-400">= 4</span>
           </div>
@@ -1451,6 +1447,17 @@
 
         sadKittyActionBtn.onclick = () => {
           sadKittyModal.classList.add('hidden');
+          
+          if (currentQ.type === "drag-match") {
+            // Clear incorrect dropzones so student can fix them
+            userAnswers[currentIndex] = {};
+            renderDragMatchQuestion(currentQ, currentIndex);
+            feedbackTextEl.className = "px-4 py-1.5 rounded-full font-bold bg-amber-100 text-amber-800 border border-amber-300 shadow-sm";
+            feedbackTextEl.innerHTML = "Place each name under the matching shape! 🐾";
+            feedbackBannerEl.style.opacity = '1';
+            return;
+          }
+
           // Visually mark the incorrect button to help learner avoid repeating it
           const buttons = optionsGridEl.querySelectorAll('.option-card');
           buttons.forEach(btn => {
@@ -1470,13 +1477,21 @@
           feedbackBannerEl.style.opacity = '1';
         };
       } else {
-        // Second incorrect attempt: let them move on
-        const correctText = currentQ.options[currentQ.answerIndex];
-        sadKittyTitle.textContent = "Good Try! Keep Going!";
-        sadKittyMessage.innerHTML = `That was tricky! The correct answer was <strong class="text-sky-700">${correctText}</strong>. Let's try the next one! 🐾`;
-        sadKittyActionBtn.textContent = "Next Question ➜";
-        sadKittyActionBtn.className = "w-full bg-sky-500 hover:bg-sky-600 text-white font-fun text-lg py-3.5 px-6 rounded-2xl shadow-lg border-b-4 border-sky-700 active:translate-y-1 transition";
-        speakQuestion(`Good try! The answer was ${correctText}. Let's go to the next question!`);
+        // Second incorrect attempt: reveal and move on
+        if (currentQ.type === "drag-match") {
+          sadKittyTitle.textContent = "Good Try! Keep Going!";
+          sadKittyMessage.innerHTML = `Great effort! Keep practicing your 2D shapes! Let's try the next one! 🐾`;
+          sadKittyActionBtn.textContent = "Next Question ➜";
+          sadKittyActionBtn.className = "w-full bg-sky-500 hover:bg-sky-600 text-white font-fun text-lg py-3.5 px-6 rounded-2xl shadow-lg border-b-4 border-sky-700 active:translate-y-1 transition";
+          speakQuestion("Good try! Let's go to the next question!");
+        } else {
+          const correctText = currentQ.options[currentQ.answerIndex];
+          sadKittyTitle.textContent = "Good Try! Keep Going!";
+          sadKittyMessage.innerHTML = `That was tricky! The correct answer was <strong class="text-sky-700">${correctText}</strong>. Let's try the next one! 🐾`;
+          sadKittyActionBtn.textContent = "Next Question ➜";
+          sadKittyActionBtn.className = "w-full bg-sky-500 hover:bg-sky-600 text-white font-fun text-lg py-3.5 px-6 rounded-2xl shadow-lg border-b-4 border-sky-700 active:translate-y-1 transition";
+          speakQuestion(`Good try! The answer was ${correctText}. Let's go to the next question!`);
+        }
 
         sadKittyActionBtn.onclick = () => {
           sadKittyModal.classList.add('hidden');
@@ -1495,9 +1510,35 @@
     }
 
     function goNext() {
-      if (selectedAnswer === null) return;
-
       const currentQ = questions[currentIndex];
+
+      if (currentQ.type === "drag-match") {
+        const placements = userAnswers[currentIndex] || {};
+        if (Object.keys(placements).length < currentQ.shapes.length) return;
+
+        // Check if all 4 shapes match their correct name
+        let isAllCorrect = true;
+        currentQ.shapes.forEach((sh, shIdx) => {
+          if (placements[shIdx] !== sh.name) {
+            isAllCorrect = false;
+          }
+        });
+
+        if (isAllCorrect) {
+          if (questionAttempts === 0) {
+            score++;
+            scoreCounterEl.textContent = score;
+          }
+          playTone('correct');
+          advanceToNextQuestion();
+        } else {
+          questionAttempts++;
+          showSadKitty(questionAttempts, currentQ);
+        }
+        return;
+      }
+
+      if (selectedAnswer === null) return;
       const isCorrect = selectedAnswer === currentQ.answerIndex;
 
       if (isCorrect) {
@@ -1543,7 +1584,15 @@
           domainStats[q.domain] = { correct: 0, total: 0 };
         }
         domainStats[q.domain].total++;
-        if (userAnswers[idx] === q.answerIndex) {
+
+        if (q.type === "drag-match") {
+          const placements = userAnswers[idx] || {};
+          let isAllCorrect = Object.keys(placements).length === q.shapes.length;
+          q.shapes.forEach((sh, shIdx) => {
+            if (placements[shIdx] !== sh.name) isAllCorrect = false;
+          });
+          if (isAllCorrect) domainStats[q.domain].correct++;
+        } else if (userAnswers[idx] === q.answerIndex) {
           domainStats[q.domain].correct++;
         }
       });
